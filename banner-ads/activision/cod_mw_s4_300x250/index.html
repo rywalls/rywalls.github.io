@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<meta name="generator" content="fbf_exporter:v0.9.9.8"><meta name="ad.size" content="width=300,height=250"><style type="text/css">.do {
+					display:block;
+					position:absolute;
+					visibility:inherit;
+					overflow:visible;
+					-moz-transform:matrix(1, 0, 0, 1, 0, 0);-ms-transform:matrix(1, 0, 0, 1, 0, 0);-o-transform:matrix(1, 0, 0, 1, 0, 0);-webkit-transform:matrix(1, 0, 0, 1, 0, 0);transform:matrix(1, 0, 0, 1, 0, 0);
+					-moz-transform-origin:0px 0px;-ms-transform-origin:0px 0px;-o-transform-origin:0px 0px;-webkit-transform-origin:0px 0px;transform-origin:0px 0px;
+					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
+				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
+<script id="script_util" type="text/javascript">
+			var clickTag = "";
+			function handleClick(e) //<---- make sure you main.js button listeners point to this (remove any other handleclick functions from main.js if porting from another build)
+			{
+				e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; 
+				window.open(window.clickTag);
+			}
+			
+			var $svg = {s:"http://www.w3.org/2000/svg",x:"http://www.w3.org/1999/xlink"};
+			function loadJS(src, callback, sync) {
+				if (typeof src === 'string') {
+					var s = document.createElement('script');
+					s.src = src;
+					s.async = true;
+					s.onreadystatechange = s.onload = function() {
+						var state = s.readyState;
+						if (!callback[src] && (!state || /loaded|complete/.test(state))) {
+							callback[src] = true;
+							callback();
+						}
+					};
+					document.getElementsByTagName('head')[0].appendChild(s);
+				}else if (src.length) {
+					var count = src.length;
+					var i = 0;
+					if (sync)
+					{
+						function loadNext()
+						{
+							loadJS(src[i++], function() {
+								if(--count == 0)	callback();
+								else 				loadNext();
+							});
+						}
+						loadNext();
+					}else {
+						while (i < src.length) {
+							loadJS(src[i++], function(){
+									if(--count == 0)callback();
+								}
+							);
+						};
+					}
+
+				}
+			}
+			function $(id)
+			{
+				var l=arguments.length;
+				if(l>1)
+				{
+					var es=[];
+					for(var i=0;i<l;i++)es.push($(arguments[i]));
+					return es;
+				}else return document.getElementById(id);
+			}
+			function getPropPrefix(p)
+			{
+				var e = document.createElement("div");
+				var s = e.style, a, i;
+				if (s[p] !== undefined)	return p;
+				p = p.charAt(0).toUpperCase() + p.substr(1);
+				a = ["O","Moz","ms","Ms","Webkit"];
+				i = 5;
+				while (--i > -1 && s[a[i]+p] === undefined) { }
+				if (i >= 0){
+					_prefix = (i === 3) ? "ms" : a[i];
+					return _prefix + p;
+				}
+				return null;
+			}
+			var transform = getPropPrefix("transform");
+			function buildDom(target, dom)
+			{
+				var body = document.body;
+				var _div = div();
+				if (dom == undefined) dom = _ad.doms[_ad.doms.length - 1];
+				var scss = "";
+				var m = (window.moduleIndex !== undefined) ? "m" + window.moduleIndex : "";
+				for (var i = 0; i < dom.sst.length; i++ ) scss += "." + m + "sst" + i + dom.sst[i] + "\n";
+				for (var i = 0; i < dom.sso.length; i++ ) scss += "." + m + "sso" + i + dom.sso[i] + "\n";
+				
+				var s = document.createElement('style');
+				s.type = 'text/css';
+				if (s.styleSheet){
+				  s.styleSheet.cssText = scss;
+				} else {
+				  s.appendChild(document.createTextNode(scss));
+				}
+				document.head.appendChild(s);
+
+				extract(dom, _div, dom.types);
+				if(target){
+					typeof target === "string" ? document.getElementById(target).appendChild(_div) : target.appendChild(_div); 
+				}else{
+					body.appendChild(_div);						
+				}
+			}
+			function extract(ob, parent, types)
+			{
+				var isSvg = (ob.u || ob.svg) ? true : false;
+				var el = isSvg ? svg() : div();
+				el.className = "do";
+				if(isSvg)	el.setAttribute("class", "do");
+				if (ob.i) {
+					el.id = ob.i;
+					if (el.id == "root") el.style.display = "none";
+				}
+				if(ob.t)	el.setAttribute("data-type", types[ob.t]);
+				if(ob.c)	for (var i = 0; i < ob.c.length; i++) extract(ob.c[i], el, types);
+				if(ob.w)	isSvg ? el.setAttribute("width", ob.w + "px") : el.style.width = ob.w + "px";
+				if(ob.h)	isSvg ? el.setAttribute("height", ob.h + "px") :  el.style.height = ob.h + "px";
+				if(ob.x)	el.style.left = ob.x + "px";
+				if(ob.y)	el.style.top = ob.y + "px";
+				if(ob.bx || ob.by)	el.style.backgroundPosition = def(ob.bx, 0) + "px" + " " + def(ob.by, 0) + "px";
+				//if(typeof ob.ta != "undefined" || typeof ob.tb != "undefined" || typeof ob.tc != "undefined" || typeof ob.td != "undefined" || typeof ob.tx != "undefined" || typeof ob.ty != "undefined")
+				if(isDef(ob.ta, ob.tb, ob.tc, ob.td, ob.tx, ob.ty))
+				{
+					el.style[transform] = "matrix("+def(ob.ta,1) + "," + def(ob.tb,0) + "," + def(ob.tc,0) + "," + def(ob.td,1) + "," + def(ob.tx,0) + "," + def(ob.ty,0) + ")";
+				}
+				if(isDef(ob.mx, ob.my))
+				{
+					el.style[transform] = "matrix(1,0,0,1," + -def(ob.mx,0) + "," + -def(ob.my,0) + ")";
+				}
+				if(ob.k)	el.className += " " + ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + ob.k : ob.k);
+				if(ob.u)	buildUse(ob.u, el);
+				if(ob.svg)	buildSVG(ob.svg, el);	//el.innerHTMl = 
+				if(ob.col)	el.setAttribute("fill",  ob.col);
+				if(parent)	parent.appendChild(el);
+			}
+			function buildSVG(data, el, col)
+			{
+				var parentTag = el;
+				for (var i = 0; i < data.length; i+=5)
+				{
+					//var useTag = document.createElement("use");
+					var useTag = document.createElementNS($svg.s, "use");
+					var id = "#f" + data[i] + "_" + data[i + 1];
+					var mtx = "matrix(" + data[i + 2] + ",0,0," + data[i + 2] + "," + data[i + 3] + "," + data[i + 4] + ")";
+					useTag.setAttributeNS($svg.x, "xlink:href", id);
+					useTag.setAttribute("transform", mtx);
+					useTag.style[transform] = mtx;						
+					parentTag.appendChild(useTag);
+				}
+			}
+			function buildUse(id, el)
+			{
+				var useTag = document.createElementNS($svg.s, "use");
+				var link = ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + id : id);
+				useTag.setAttributeNS($svg.x, "xlink:href", "#" + link);
+				el.appendChild(useTag);
+			}
+			function isDef()
+			{
+				for(var i=0; i<arguments.length; i++) if(typeof arguments[i] != "undefined") return true;
+				return false;
+			}
+			function def(value, _default)
+			{
+				return typeof value == "undefined" ? _default : value;
+			}
+			function div()
+			{
+				return document.createElement("div");
+			}
+			function svg()
+			{
+				var el = document.createElementNS($svg.s, "svg");
+				el.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", $svg.x);
+				//el.setAttributeNS(ns, "xmlns", SVG_NS);
+				return el;
+			}
+			</script>
+<script id="script_font" type="text/javascript">var fonts = {};
+</script>
+<script id="script_dom" type="text/javascript">_ad.doms = _ad.doms || [];
+var dom = {i:"root",w:300,h:250,c:[{i:"mc_background",t:0,w:300,h:250,c:[{t:1,w:300,h:250,bx:-2,by:-2,k:"sso0"},{i:"mc_planes",t:2,tx:167.5,ty:109,w:43,h:33,c:[{t:1,w:43,h:33,bx:-2,by:-2,k:"sst0"}]}]},{i:"mc_season_logo",t:3,tx:62,ty:47,w:176,h:56,c:[{t:1,w:176,h:56,bx:-2,by:-39,k:"sst0"}]},{i:"mc_characters",t:4,w:241,h:174,c:[{i:"mc_character_gaz",t:5,tx:191,ty:127,w:70,h:123,c:[{t:1,w:70,h:123,bx:-2,by:-99,k:"sst0"}]},{i:"mc_character_roze",t:6,tx:20,ty:109,w:93,h:149,c:[{t:1,w:93,h:149,bx:-2,by:-226,k:"sst0"},{t:1,w:93,h:141,bx:-2,by:-379,k:"sst0"}]},{i:"mc_character_price",t:7,tx:104,ty:84,w:92,h:174,c:[{t:1,w:92,h:174,bx:-99,by:-99,k:"sst0"},{t:1,w:92,h:166,bx:-99,by:-277,k:"sst0"}]}]},{i:"mc_cod_logos",t:8,tx:72,ty:4,w:142,h:33,c:[{t:9,w:142,h:33,c:[{w:149,h:38,u:"s0",mx:"0",my:"0"}]}]},{i:"mc_button",t:10,tx:66,ty:192,w:167,h:34,c:[{t:1,w:167,h:34,bx:-2,by:-524,k:"sst0"},{t:1,w:167,h:34,bx:-2,by:-562,k:"sst0"}]},{i:"mc_rating",t:11,tx:9,ty:200,w:35,h:42,c:[{t:1,w:35,h:42,bx:-99,by:-447,k:"sst0"}]},{i:"mc_curtain",t:12,w:300,h:600,c:[{t:9,w:300,h:600,c:[{w:300,h:600,u:"s1",mx:"0",my:"0"}]}]}]};
+dom.types = ["mc_backgroundGFX","flash.display::Bitmap","mc_planesGFX","mc_season_logoGFX","mc_charactersGFX","mc_character_gazGFX","mc_character_rozeGFX","mc_character_priceGFX","mc_cod_logosGFX","flash.display::Shape","mc_buttonGFX","mc_ratingGFX","mc_curtainGFX"];
+dom.sst = ["{background-image: url('spritesheet0.png');background-size:2228px 604px;}"
+];
+dom.sso = ["{background-image: url('spritesheet0.jpg');background-size:304px 604px;}"
+];
+_ad.doms.push(dom);
+dom = null;</script>
+</head>
+<body style="margin:0px;" onload="adReady()">
+  <img crossorigin="" src="spritesheet0.png" width="300" height="250" style="display:none;"></img>
+  <img crossorigin="" src="spritesheet0.jpg" width="300" height="250" style="display:none;"></img>
+  <svg id="svg_defs" style="position:absolute"></svg>
+  <noscript>
+    <img src="backup.jpg"></img>
+  </noscript>
+  <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.1.0_min.js"></script>
+  <script type="text/javascript" src="fbf.js"></script>
+  <script type="text/javascript">buildDom();</script>
+  <script type="text/javascript" src="main.js"></script>
+  <script>function adReady() {
+					startBanner();
+				}</script>
+</body>
+</html>

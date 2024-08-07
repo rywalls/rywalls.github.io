@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<meta name="generator" content="fbf_exporter:v0.9.9.9"><meta name="ad.size" content="width=160,height=600"><style type="text/css">.do {
+					display:block;
+					position:absolute;
+					visibility:inherit;
+					overflow:visible;
+					-moz-transform:matrix(1, 0, 0, 1, 0, 0);-ms-transform:matrix(1, 0, 0, 1, 0, 0);-o-transform:matrix(1, 0, 0, 1, 0, 0);-webkit-transform:matrix(1, 0, 0, 1, 0, 0);transform:matrix(1, 0, 0, 1, 0, 0);
+					-moz-transform-origin:0px 0px;-ms-transform-origin:0px 0px;-o-transform-origin:0px 0px;-webkit-transform-origin:0px 0px;transform-origin:0px 0px;
+					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
+				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
+<script id="script_util" type="text/javascript">
+			var clickTag = "";
+			function handleClick(e) //<---- make sure you main.js button listeners point to this (remove any other handleclick functions from main.js if porting from another build)
+			{
+				e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; 
+				window.open(window.clickTag);
+			}
+			
+			var $svg = {s:"http://www.w3.org/2000/svg",x:"http://www.w3.org/1999/xlink"};
+			function loadJS(src, callback, sync) {
+				if (typeof src === 'string') {
+					var s = document.createElement('script');
+					s.src = src;
+					s.async = true;
+					s.onreadystatechange = s.onload = function() {
+						var state = s.readyState;
+						if (!callback[src] && (!state || /loaded|complete/.test(state))) {
+							callback[src] = true;
+							callback();
+						}
+					};
+					document.getElementsByTagName('head')[0].appendChild(s);
+				}else if (src.length) {
+					var count = src.length;
+					var i = 0;
+					if (sync)
+					{
+						function loadNext()
+						{
+							loadJS(src[i++], function() {
+								if(--count == 0)	callback();
+								else 				loadNext();
+							});
+						}
+						loadNext();
+					}else {
+						while (i < src.length) {
+							loadJS(src[i++], function(){
+									if(--count == 0)callback();
+								}
+							);
+						};
+					}
+
+				}
+			}
+			function $(id)
+			{
+				var l=arguments.length;
+				if(l>1)
+				{
+					var es=[];
+					for(var i=0;i<l;i++)es.push($(arguments[i]));
+					return es;
+				}else return document.getElementById(id);
+			}
+			function getPropPrefix(p)
+			{
+				var e = document.createElement("div");
+				var s = e.style, a, i;
+				if (s[p] !== undefined)	return p;
+				p = p.charAt(0).toUpperCase() + p.substr(1);
+				a = ["O","Moz","ms","Ms","Webkit"];
+				i = 5;
+				while (--i > -1 && s[a[i]+p] === undefined) { }
+				if (i >= 0){
+					_prefix = (i === 3) ? "ms" : a[i];
+					return _prefix + p;
+				}
+				return null;
+			}
+			var transform = getPropPrefix("transform");
+			function buildDom(target, dom)
+			{
+				var body = document.body;
+				var _div = div();
+				if (dom == undefined) dom = _ad.doms[_ad.doms.length - 1];
+				var scss = "";
+				var m = (window.moduleIndex !== undefined) ? "m" + window.moduleIndex : "";
+				for (var i = 0; i < dom.sst.length; i++ ) scss += "." + m + "sst" + i + dom.sst[i] + "\n";
+				for (var i = 0; i < dom.sso.length; i++ ) scss += "." + m + "sso" + i + dom.sso[i] + "\n";
+				
+				var s = document.createElement('style');
+				s.type = 'text/css';
+				if (s.styleSheet){
+				  s.styleSheet.cssText = scss;
+				} else {
+				  s.appendChild(document.createTextNode(scss));
+				}
+				document.head.appendChild(s);
+
+				extract(dom, _div, dom.types);
+				if(target){
+					typeof target === "string" ? document.getElementById(target).appendChild(_div) : target.appendChild(_div); 
+				}else{
+					body.appendChild(_div);						
+				}
+			}
+			function extract(ob, parent, types)
+			{
+				var isSvg = (ob.u || ob.svg) ? true : false;
+				var el = isSvg ? svg() : div();
+				el.className = "do";
+				if(isSvg)	el.setAttribute("class", "do");
+				if (ob.i) {
+					el.id = ob.i;
+					if (el.id == "root") el.style.display = "none";
+				}
+				if(ob.t)	el.setAttribute("data-type", types[ob.t]);
+				if(ob.c)	for (var i = 0; i < ob.c.length; i++) extract(ob.c[i], el, types);
+				if(ob.w)	isSvg ? el.setAttribute("width", ob.w + "px") : el.style.width = ob.w + "px";
+				if(ob.h)	isSvg ? el.setAttribute("height", ob.h + "px") :  el.style.height = ob.h + "px";
+				if(ob.x)	el.style.left = ob.x + "px";
+				if(ob.y)	el.style.top = ob.y + "px";
+				if(ob.bx || ob.by)	el.style.backgroundPosition = def(ob.bx, 0) + "px" + " " + def(ob.by, 0) + "px";
+				//if(typeof ob.ta != "undefined" || typeof ob.tb != "undefined" || typeof ob.tc != "undefined" || typeof ob.td != "undefined" || typeof ob.tx != "undefined" || typeof ob.ty != "undefined")
+				if(isDef(ob.ta, ob.tb, ob.tc, ob.td, ob.tx, ob.ty))
+				{
+					el.style[transform] = "matrix("+def(ob.ta,1) + "," + def(ob.tb,0) + "," + def(ob.tc,0) + "," + def(ob.td,1) + "," + def(ob.tx,0) + "," + def(ob.ty,0) + ")";
+				}
+				if(isDef(ob.mx, ob.my))
+				{
+					el.style[transform] = "matrix(1,0,0,1," + -def(ob.mx,0) + "," + -def(ob.my,0) + ")";
+				}
+				if(ob.k)	el.className += " " + ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + ob.k : ob.k);
+				if(ob.u)	buildUse(ob.u, el);
+				if(ob.svg)	buildSVG(ob.svg, el);	//el.innerHTMl = 
+				if(ob.col)	el.setAttribute("fill",  ob.col);
+				if(parent)	parent.appendChild(el);
+			}
+			function buildSVG(data, el, col)
+			{
+				var parentTag = el;
+				for (var i = 0; i < data.length; i+=5)
+				{
+					//var useTag = document.createElement("use");
+					var useTag = document.createElementNS($svg.s, "use");
+					var id = "#f" + data[i] + "_" + data[i + 1];
+					var mtx = "matrix(" + data[i + 2] + ",0,0," + data[i + 2] + "," + data[i + 3] + "," + data[i + 4] + ")";
+					useTag.setAttributeNS($svg.x, "xlink:href", id);
+					useTag.setAttribute("transform", mtx);
+					useTag.style[transform] = mtx;						
+					parentTag.appendChild(useTag);
+				}
+			}
+			function buildUse(id, el)
+			{
+				var useTag = document.createElementNS($svg.s, "use");
+				var link = ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + id : id);
+				useTag.setAttributeNS($svg.x, "xlink:href", "#" + link);
+				el.appendChild(useTag);
+			}
+			function isDef()
+			{
+				for(var i=0; i<arguments.length; i++) if(typeof arguments[i] != "undefined") return true;
+				return false;
+			}
+			function def(value, _default)
+			{
+				return typeof value == "undefined" ? _default : value;
+			}
+			function div()
+			{
+				return document.createElement("div");
+			}
+			function svg()
+			{
+				var el = document.createElementNS($svg.s, "svg");
+				el.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", $svg.x);
+				//el.setAttributeNS(ns, "xmlns", SVG_NS);
+				return el;
+			}
+			</script>
+<script id="script_font" type="text/javascript">var fonts = {};
+</script>
+<script id="script_dom" type="text/javascript">_ad.doms = _ad.doms || [];
+var dom = {i:"root",w:160,h:600,c:[{i:"banner_background",t:0,w:160,h:600,c:[{t:1,w:160,h:600,bx:-2,by:-2,k:"sso0"}]},{i:"banner_frame1",t:2,w:232,h:328,c:[{i:"banner_hand",t:3,ta:0.78996,td:0.78998,tx:-39,ty:85,w:232,h:231,c:[{t:1,w:293,h:201,bx:-2,by:-2,k:"sst0"},{t:1,tx:79,ty:84,w:75,h:26,bx:-299,by:-2,k:"sst0"},{t:1,tx:152,ty:81,w:75,h:26,bx:-299,by:-2,k:"sst0"},{t:1,tx:118,ty:69,w:67,h:20,bx:-378,by:-2,k:"sst0"},{t:1,tx:86,ty:79,w:68,h:24,bx:-449,by:-2,k:"sst0"},{t:1,tx:159,ty:31,w:51,h:67,bx:-378,by:-26,k:"sst0"},{t:1,tx:95,ty:-2,w:61,h:75,bx:-299,by:-32,k:"sst0"},{t:1,tx:123,ty:-91,w:61,h:74,bx:-521,by:-2,k:"sst0"}]},{i:"banner_text_1",t:4,tx:20,ty:305,w:150.1,h:76.45,x:-15,y:-41,bx:-586,by:-2,k:"sst0"}]},{i:"banner_frame2",t:5,w:154,h:214,c:[{i:"banner_card",t:6,ty:126,w:151,h:95,x:0,y:0,bx:-741,by:-2,k:"sst0"},{i:"banner_text_2",t:7,tx:7,ty:264,w:147,h:76,c:[{i:"text2_line1",t:8,tx:21,w:105.35,h:16.55,x:0,y:0,bx:-433,by:-80,k:"sst0"},{i:"text2_line2",t:9,tx:46,ty:20,w:53.4,h:16.4,x:0,y:0,bx:-433,by:-30,k:"sst0"},{i:"text2_line3",t:10,ty:40,w:146.35,h:16.4,x:0,y:0,bx:-543,by:-83,k:"sst0"},{i:"text2_line4",t:11,tx:24,ty:60,w:98.75,h:15.8,x:0,y:0,bx:-364,by:-101,k:"sst0"}]}]},{i:"banner_frame3",t:12,ta:0.7,td:0.69998,tx:6,ty:188,w:148,h:148,c:[{i:"banner_badge",t:13,w:210.95,h:211,x:0,y:0,bx:-896,by:-2,k:"sst0"}]},{i:"banner_frame4",t:14,w:340,h:600,c:[{i:"banner_confetti",t:15,ta:0.84998,tx:-90,w:340,h:600,c:[{t:1,ta:0.99998,w:400.0061,h:600,bx:-467,by:-104,k:"sst0"},{t:1,ta:0.99998,td:0.99998,w:400.0061,h:600.00916,bx:-2,by:-207,k:"sst0"}]},{i:"banner_legal",t:16,tx:17,ty:489,w:124.65,h:18.8,x:0,y:0,bx:-299,by:-121,k:"sst0"},{i:"banner_text_4",t:17,tx:7,ty:193,w:146,h:111,c:[{i:"text4_line1",t:18,w:87,h:12,x:0,y:0,bx:-299,by:-144,k:"sst0"},{i:"text4_line2",t:19,tx:3,ty:16,w:141.35,h:63.6,x:0,y:0,bx:-1111,by:-2,k:"sst0"},{i:"text4_line3",t:20,tx:3,ty:84,w:139.25,h:11.55,x:0,y:0,bx:-299,by:-160,k:"sst0"},{i:"text4_line4",t:21,ty:99,w:145.85,h:11.95,x:0,y:0,bx:-299,by:-176,k:"sst0"}]},{i:"banner_plus",t:22,tx:40,ty:146,w:80.7,h:36.55,x:0,y:0,bx:-1257,by:-2,k:"sst0"}]},{i:"banner_frame5",t:23,w:151,h:166,c:[{i:"banner_card_end",t:6,ty:176,w:151,h:95,c:[{t:1,ta:0.99998,w:151.0023,h:95,bx:-1342,by:-2,k:"sst0"}]},{i:"banner_text_5",t:24,tx:12,ty:297,w:135,h:45,c:[{i:"text5_line1",t:25,w:134.15,h:13,x:0,y:0,bx:-1111,by:-70,k:"sst0"},{i:"text5_line2",t:26,tx:2.15,ty:17.5,w:131.25,h:27.3,x:0,y:0,bx:-1111,by:-87,k:"sst0"}]}]},{i:"banner_logo",t:27,tx:12,ty:524,w:136,h:64,x:0,y:0,bx:-2,by:-606,k:"sso0"},{i:"banner_button",t:28,tx:30,ty:449,w:101,h:26,c:[{i:"button_background",t:29,w:100.1,h:25.65,x:0,y:0,bx:-1497,by:-2,k:"sst0"},{i:"button_background_rollover",t:30,w:100.1,h:25.65,x:0,y:0,bx:-1602,by:-2,k:"sst0"},{i:"button_text",t:31,tx:23,ty:8,w:53.55,h:9.35,x:0,y:0,bx:-390,by:-144,k:"sst0"},{i:"button_text_rollover",t:32,tx:23,ty:8,w:53.55,h:9.35,x:0,y:0,bx:-299,by:-192,k:"sst0"}]},{i:"banner_curtain",t:33,w:160,h:600,x:0,y:0,bx:-142,by:-606,k:"sso0"}]};
+dom.types = ["banner_backgroundGFX","flash.display::Bitmap","banner_frame1GFX","banner_handGFX","banner_text_1GFX","banner_frame2GFX","banner_cardGFX","banner_text_2GFX","text2_line1GFX","text2_line2GFX","text2_line3GFX","text2_line4GFX","banner_frame3GFX","banner_badgeGFX","banner_frame4GFX","banner_confettiGFX","banner_legalGFX","banner_text_4GFX","text4_line1GFX","text4_line2GFX","text4_line3GFX","text4_line4GFX","banner_plusGFX","banner_frame5GFX","banner_text_5GFX","text5_line1GFX","text5_line2GFX","banner_logoGFX","banner_buttonGFX","button_backgroundGFX","button_background_rolloverGFX","button_textGFX","button_text_rolloverGFX","banner_curtainGFX"];
+dom.sst = ["{background-image: url('spritesheet0.png');background-size:2048px 2048px;}"
+];
+dom.sso = ["{background-image: url('spritesheet0.jpg');background-size:2048px 2048px;}"
+];
+_ad.doms.push(dom);
+dom = null;</script>
+</head>
+<body style="margin:0px;" onload="adReady()">
+  <img crossorigin="" src="spritesheet0.png" width="160" height="600" style="display:none;"></img>
+  <img crossorigin="" src="spritesheet0.jpg" width="160" height="600" style="display:none;"></img>
+  <svg id="svg_defs" style="position:absolute">
+    <defs id="defs_global"></defs>
+  </svg>
+  <noscript>
+    <img src="backup.jpg"></img>
+  </noscript>
+  <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.1.0_min.js"></script>
+  <script type="text/javascript" src="fbf.js"></script>
+  <script type="text/javascript">buildDom();</script>
+  <script type="text/javascript" src="main.js"></script>
+  <script>function adReady() {
+					startBanner();
+				}</script>
+</body>
+</html>
