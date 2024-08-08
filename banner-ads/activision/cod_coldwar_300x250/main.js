@@ -1,13 +1,3 @@
-var onov = (window.location.href.indexOf("http://ocean") == 0 || window.location.href.indexOf("https://ocean") == 0);
-var weLocal = window.location.protocol === "file:" || window.location.hostname == "localhost";
-
-var buildPath = "../../../",
-    globalPath = buildPath + "global/",
-    configPath = buildPath + "configs/"
-    ovPath = "../../../../../_bannerGlobals/acti/cold_war_launch/"
-
-var local_lang = 'uk'
-
 var dateColour = '#232323'
 
 var buttonTF, dateTF, buttonFontSize, dateFontSize
@@ -33,7 +23,6 @@ var AdBase = function(init) {
     this.clickthrough = function(name) {
         if(typeof Enabler !== "undefined") {
         	if(weLocal || onov) {
-        		console.log("%c\nmyAd.clickthrough%c (local or on Oceanview)\n\nIf this ad was live, Enabler.exitOverride would be called.\n\n", 'text-decoration: underline; color: #344CFF;', 'text-decoration: none;');
         	} else {
 				//Enabler.exitOverride(name ? name : 'default', BackgroundExit);
 				Enabler.exit('default')
@@ -62,24 +51,6 @@ Ad.prototype.constructor = Ad;
 
 var ad = new Ad();
 
-var assets = {
-	svg:{     
-		ov:     "svg.gz.js",
-		local:  "svg.gz.js",
-		dc:     "dir_assets/svg.gz.js"
-	},
-	config:{ 
-		ov:     ovPath + "configs/config_" + local_lang + ".js",
-		local:  configPath + "/config_" + local_lang + ".js",
-		dc:     "asset_config"
-	},
-	campaign: {
-		ov:     ovPath + "global/coldwar.js",
-		local:  globalPath + "coldwar.js",
-		dc:     "dir_global/coldwar.js"
-	}
-}
-
 function startBanner() {
 	loadScripts()
 }
@@ -89,23 +60,14 @@ function loadScripts() {
 }
 
 function loadSvgs() {
-	fbf.loadSvgs(setup, ad.getAsset(assets.svg))
+	fbf.loadSvgs(setup, 'svg.gz.js')
 }
 
 function setup() {
-	if(weLocal) {
-		document.documentElement.style.backgroundColor = '#141415'
-		_root.style.position = 'absolute'
-		_root.style.top = '50%'
-		_root.style.left = '50%'
-		_root.style.transform = 'translateX(-50%) translateY(-50%)';
-	}
-
 	var keyline = addKeylineTo(root, ad.width, ad.height, '#666666', 1)
 
 	root.display = true
 	root.style.overflow = "hidden"
-	root.addEventListener("click", handleClick)
 	root.buttonMode = true
 
 	root.addEventListener("mouseenter", coldwar.buttonRollover)
@@ -251,14 +213,6 @@ function animate() {
 	mainAnimationTL.add(coldwar.animateLogo, '< 0.3')
 	mainAnimationTL.add(coldwar.animateDate, '< 0.5')
 	mainAnimationTL.add(coldwar.animateButton, '> 0.5')
-}
-
-function handleClick(event) {
-	event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true;
-	var target = event.target || event.srcElement;
-	var phase = event.eventPhase;
-
-	Enabler.exit('default')
 }
 
 var _root = $('root')

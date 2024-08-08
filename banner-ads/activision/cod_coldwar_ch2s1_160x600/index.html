@@ -158,8 +158,7 @@ set:function(a){this.a.height=a}},width:{configurable:!0,enumerable:!0,get:funct
   <script type="text/javascript" gwd-events="handlers">
     window.gwd = window.gwd || {};
     gwd.szmk_clickthrough = function(event) {
-      console.log('EB.clickthrough')
-      EB.clickthrough()
+      
     };
     gwd.auto_BgHSAction1 = function(event) {
       // GWD Predefined Function
@@ -167,7 +166,7 @@ set:function(a){this.a.height=a}},width:{configurable:!0,enumerable:!0,get:funct
     };
     gwd.auto_BgHSAction2 = function(event) {
       // GWD Predefined Function
-      gwd.actions.gwdGoogleAd.exit('gwd-ad', 'clickthrough', '', true, true, 'page1');
+      
     };
     gwd.auto_BgHSAction3 = function(event) {
       // GWD Predefined Function
@@ -178,7 +177,7 @@ set:function(a){this.a.height=a}},width:{configurable:!0,enumerable:!0,get:funct
       gwd.actions.gwdParticleeffects.pause('smoke_light');
     };
   </script>
-  <script id="js-gsap" src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.0.1_min.js"></script>
+  <script id="js-gsap" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script data-source="gwdtaparea_min.js" data-version="7" data-exports-type="gwd-taparea">(function(){/*
 
  Copyright The Closure Library Authors.
@@ -307,7 +306,6 @@ var M=function(a){return"object"==typeof gwd&&"GwdId"in gwd?(new gwd.GwdId(a)).g
         </div>
       <div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 1px; z-index: 9000; background-color: rgb(161, 159, 160);"></div><div style="position: absolute; right: 0px; top: 0px; width: 1px; height: 100%; z-index: 9000; background-color: rgb(161, 159, 160);"></div><div style="position: absolute; left: 0px; bottom: 0px; width: 100%; height: 1px; z-index: 9000; background-color: rgb(161, 159, 160);"></div><div style="position: absolute; left: 0px; top: 0px; width: 1px; height: 100%; z-index: 9000; background-color: rgb(161, 159, 160);"></div></gwd-page>
     </gwd-pagedeck>
-    <gwd-exit metric="clickthrough" url=""></gwd-exit>
   </gwd-google-ad>
   <script type="text/javascript" id="gwd-init-code">
     (function() {
@@ -380,12 +378,7 @@ var M=function(a){return"object"==typeof gwd&&"GwdId"in gwd?(new gwd.GwdId(a)).g
           ease: "power2.out",
         })
         // logo
-      gsap.to('#logo', {
-        duration: 0.75,
-        alpha: 1,
-        ease: "power2.inOut",
-        delay: 0.15
-      })
+
       gsap.to("#seasonOne", {
         duration: 1.5,
         alpha: 1,
@@ -504,8 +497,4 @@ var M=function(a){return"object"==typeof gwd&&"GwdId"in gwd?(new gwd.GwdId(a)).g
       }
     }
   </script>
-
-
-<script data-exports-type="gwd-studio-registration">function StudioExports() {
-Enabler.exit("clickthrough", "");
-}</script><script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clickthrough"}],"creativeProperties":{"minWidth":160,"minHeight":600,"maxWidth":160,"maxHeight":600},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-particleeffects","gwd-particles","gwd-taparea"],"responsive":false}</script></body></html>
+<script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clickthrough"}],"creativeProperties":{"minWidth":160,"minHeight":600,"maxWidth":160,"maxHeight":600},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-particleeffects","gwd-particles","gwd-taparea"],"responsive":false}</script></body></html>

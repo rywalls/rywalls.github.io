@@ -76,11 +76,9 @@ function getImgPath(src) {
 
 function imgIncrement(e) {
     e.target.removeEventListener('load', imgIncrement);
-    console.log('loaded ' + imagesToLoad[imgsLoaded])
     imgsLoaded++;
 
     if (imgsLoaded === imagesToLoad.length) {
-        console.log('all images loaded')
         startFlow();
     }
 }
@@ -221,7 +219,6 @@ function lerp(start, end, amt){
 function setListeners() {
     _root.addEventListener('mouseover', rollover, false);
     _root.addEventListener('mouseout', rollout, false);
-    _root.addEventListener("click", handleClick);
 }
 
 
@@ -362,26 +359,4 @@ function getPaths(el) {
 
 function updatePathColor(path, colourToUse) {
     path.setAttribute("fill", colourToUse);
-}
-
-function handleClick(event) {
-    event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true
-    var target = event.target || event.srcElement
-    var phase = event.eventPhase
-
-    if(useDefaultClickThrough) {
-        clickLabel = defaultClickURL[0]["productLabel"];
-        clickURL = defaultClickURL[0]["productURL"];
-    } else {
-        if(product_count==1) {
-            clickLabel = products[0]["productLabel"];
-            clickURL = products[0]["productURL"];
-        } else {
-            clickLabel = products[productOrder[current_product-1]-1]["productLabel"];
-            clickURL = products[productOrder[current_product-1]-1]["productURL"];
-        }
-    }
-
-    if (useDynamicExit && !fbf.isLocal && !demo) clickURL = dynamicExit;
-    Enabler.exitOverride(clickLabel, clickURL);
 }

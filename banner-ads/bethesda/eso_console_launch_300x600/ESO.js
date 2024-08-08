@@ -1,5 +1,3 @@
-console.log("%c\n ESO.js loaded \n", 'background-color: #DEB568; color: black;');
-
 var tffont = "Garamond_Premiere_Pro_Semibold_GFX";
 
 var ctx,thresholdSrcDATARAW,imageOneSrcDATARAW,thresholdCanvas,thresholdctx,foregroundCanvasctx,backgroundCanvasctx,finalOutputDATA;
@@ -8,9 +6,7 @@ var eso =
 {
 	defaultsetup: function()
 	{
-		console.log("\neso.defaultsetup\n\n");
-		logging = fbf.isLocal();
-		log(fbf.logDom(_root));
+		logging = false;
 		fbf.clean(_root);
 		fbf.replaceSVGDefs();
 		fbf.displayBlock(_root);
@@ -30,25 +26,20 @@ var eso =
 
 	setListeners: function()
 	{
-		console.log("\neso.setListeners\n\n");
-
 		_root.addEventListener("mouseenter", eso.adRollover);
 		_root.addEventListener("mouseleave", eso.adRollout);
 	},
 
 	setupRating: function(territory)
 	{
-		console.log("\neso.setupRating ("+territory+") \n\n");
 		if(territory=="uk") fbf.show(mc_rating_pegi)
 	},
 
 	setupButton: function(div, settings)
 	{
-		console.log("\neso.setupButton\n\n");
-
 		var button_text = "BUTTON TEXT", font_size = 20, letter_spacing = 0, line_height = 0, text_colour = "#000000";
 
-		if(!settings){ console.log("No settings were passed into setupButton"); }
+		if(!settings){ }
 		else
 		{
 			if(settings.text) button_text = settings.text
@@ -122,8 +113,6 @@ var eso =
 
 	setupHandMagic: function()
 	{
-		console.log("\n✋ eso.setupHandMagic\n\n");
-
 		eso.startHandMagic();
 
 		_root.addEventListener("mouseenter", eso.adRollover);
@@ -195,11 +184,9 @@ var eso =
 
 	dynamicText: function(div, settings)
 	{
-		console.log("\neso.dynamicText in "+div.id+"\n\n");
-
 		var text = "CONSOLE TEXT", text_align = "left", font_size = 20, letter_spacing = 0, line_height = 0, text_colour = "#FFFFFF", padding_top = 0;
 
-		if(!settings){ console.log("No settings were passed into dynamicText"); }
+		if(!settings){ }
 		else
 		{
 			if(settings.text) button_text = settings.text
@@ -222,11 +209,9 @@ var eso =
 
 	setupTagline: function(div, settings)
 	{
-		console.log("\neso.setupTagline\n\n");
-
 		var text = ["DRAGONS","ARE","UNLEASHED"], text_align = "left", font_size = 20, letter_spacing = 0, text_colour = "#FFFFFF", x = WID*0.5, y = HEI *0.5;
 
-		if(!settings){ console.log("No settings were passed into setupTagline"); }
+		if(!settings){ }
 		else
 		{
 			if(settings.text) text = settings.text
@@ -263,7 +248,7 @@ var eso =
 		var speed = 0.25, delayBetween = 0.5, delay = 0, pauseOnLast = 0;
 		var lines = document.getElementById('taglineContainer').children;
 
-		if(!settings){ console.log("No settings were passed into setupTagline"); }
+		if(!settings){ }
 		else
 		{
 			if(settings.speed) speed = settings.speed
@@ -291,8 +276,6 @@ var eso =
 
 	setupCanvasEffect: function(div, settings)
 	{
-		console.log("%c\n eso.setupCanvasEffect \n", 'background: #000000; color: #FFFFFF;');
-
 		var canvas_house = document.createElement('div');
 			canvas_house.id = "canvas_house";
 			canvas_house.setAttribute("class", "do");
@@ -318,8 +301,6 @@ var eso =
 
 		spritesheet.onload = function()
 		{
-			console.log("\nImage loaded. Continue...\n\n");
-
 			var artworkImage = mc_background.style.backgroundPosition.split("px");
 		
 			ctx.drawImage(spritesheet,-1*artworkImage[0],-1*artworkImage[1],WID,HEI,0,0,WID,HEI);
@@ -374,8 +355,6 @@ var eso =
 
 	createSVGgradient: function(div, settings)
 	{
-		console.log("\ncreateSVGgradient\n\n");
-
 		var colour1 = "#000000", colour2 = "#000000", width = WID, height = HEI, position = "top",
 			offsetStop1 = "0%", offsetStop2 = "100%";
 

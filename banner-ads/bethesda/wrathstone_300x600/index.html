@@ -11,14 +11,6 @@
 					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
 				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
 <script id="script_util" type="text/javascript">
-		var clickTag = "";
-	function handleClick(event)
-{
-    event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true; 
-    var target = event.target || event.srcElement;
-    var phase = event.eventPhase;
-    window.open(window.clickTag);
-}
 			//global load javascript function
 			function loadJS(src, callback, sync) {
 				if (typeof src === 'string') {
@@ -225,9 +217,6 @@ dom = null;</script>
   <img src="spritesheet1.png" style="display:none;"></img>
   <img src="spritesheet0.jpg" style="display:none;"></img>
   <svg id="svg_defs" style="position:absolute"></svg>
-  <noscript>
-    <img src="backup.jpg"></img>
-  </noscript>
  
   <script type="text/javascript" src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.18.0_499ba64a23378545748ff12d372e59e9_min.js"></script>
   <script type="text/javascript" src="fbf.js"></script>

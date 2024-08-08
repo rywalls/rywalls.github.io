@@ -11,13 +11,6 @@
 					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
 				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
 <script id="script_util" type="text/javascript">
-			var clickTag = "";
-			function handleClick(e) //<---- make sure you main.js button listeners point to this (remove any other handleclick functions from main.js if porting from another build)
-			{
-				e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; 
-				window.open(window.clickTag);
-			}
-			
 			var $svg = {s:"http://www.w3.org/2000/svg",x:"http://www.w3.org/1999/xlink"};
 			function loadJS(src, callback, sync) {
 				if (typeof src === 'string') {
@@ -201,10 +194,7 @@ dom = null;</script>
   <svg id="svg_defs" style="position:absolute">
     <defs id="defs_global"></defs>
   </svg>
-  <noscript>
-    <img src="backup.jpg"></img>
-  </noscript>
-  <script src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.1.0_min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script type="text/javascript" src="fbf.js"></script>
   <script type="text/javascript">buildDom();</script>
   <script type="text/javascript" src="main.js"></script>

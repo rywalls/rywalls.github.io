@@ -111,8 +111,8 @@ f.goToPreviousPage=function(a,b,c,d,e){var g=this.h,h=this.g.length,k=g-1;0>k&&(
 f.getDefaultPage=function(){var a=this.getAttribute("default-page");return a?this.getPage(this.findPageIndexByAttributeValue("id",a)):this.getPage(0)};f.getOrientationSpecificPage=function(a,b){b=this.getPage(b);var c=b.getAttribute("alt-orientation-page");if(!c)return b;var d=b.isPortrait();a=1==a;c=this.getPage(c);return a==d?b:c};f.o=function(a,b){if(b.target==document.body){var c=this.getPage(this.h);B(a,c,b.detail)}};
 f.getElementById=function(a){for(var b=this.g.length,c=0;c<b;c++){var d=this.g[c].querySelector("#"+a);if(d)return d}return null};f.getElementsBySelector=function(a){for(var b=this.g.length,c=[],d=0;d<b;d++){var e=this.g[d].querySelectorAll(a);e&&(c=c.concat(Array.prototype.slice.call(e)))}return c};m.Object.defineProperties(N.prototype,{currentIndex:{configurable:!0,enumerable:!0,get:function(){return 0<=this.h?this.h:void 0}}});customElements.define("gwd-pagedeck",N);}).call(this);
 </script>
-  <script type="text/javascript" gwd-events="handlers">window.gwd=window.gwd||{};gwd.pageReady=function(event){loadImages()};gwd.auto_Tap_areaAction=function(event){gwd.actions.gwdGoogleAd.exit("gwd-ad","clicktag","",false,false,"page1")}</script>
-  <script id="js-gsap" src="https://s0.2mdn.net/ads/studio/cached_libs/gsap_3.0.1_min.js"></script>
+  <script type="text/javascript" gwd-events="handlers">window.gwd=window.gwd||{};gwd.pageReady=function(event){loadImages()};gwd.auto_Tap_areaAction=function(event){}</script>
+  <script id="js-gsap" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script type="text/javascript" gwd-events="support">(function(){/*
 
  Copyright The Closure Library Authors.
@@ -477,7 +477,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
        * fired when the document has been completely loaded and parsed.
        */
       function handleDomContentLoaded(event) {
-        console.log('handleDomContentLoaded')
       }
 
       /**
@@ -487,7 +486,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
       function handleWebComponentsReady(event) {
         // Start the Ad lifecycle.
         setTimeout(function() {
-          console.log('handleWebComponentsReady')
           gwdAd.initAd();
         }, 0);
       }
@@ -497,7 +495,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
        * initialized and before the default page of the Ad is shown.
        */
       function handleAdInitialized(event) {
-        console.log('handleAdInitialized');
       }
 
       window.addEventListener('DOMContentLoaded',
@@ -554,14 +551,12 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
         }
 
         function onImagesLoaded() {
-          console.log('Finished loading all ' + imagesTotal + ' images. ' + missingImages + ' missing. Starting ad...');
           init();
         }
       })();
     }
 
     function getStyles(el) {
-      console.log('getStyles', el)
       var styles = window.getComputedStyle ? window.getComputedStyle(el) : el.currentStyle;
       return styles;
     }
@@ -694,7 +689,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
         alpha: 0
       })
 
-      console.log(document.querySelector('#flash'))
     }
 
 
@@ -893,6 +887,4 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
   </script>
 
 
-<script data-exports-type="gwd-studio-registration">function StudioExports() {
-Enabler.exit("clicktag", "");
-}</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clicktag"}],"creativeProperties":{"minWidth":300,"minHeight":250,"maxWidth":300,"maxHeight":250},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-taparea"],"responsive":false}</script><script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script></body></html>
+<script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clicktag"}],"creativeProperties":{"minWidth":300,"minHeight":250,"maxWidth":300,"maxHeight":250},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-taparea"],"responsive":false}</script><script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script></body></html>

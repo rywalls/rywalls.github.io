@@ -638,7 +638,7 @@ var fbf = (function () {
 	mapping["sv"]	= ["swedish","english"];
 	mapping["no"]	= ["norwegian","english"];
 	mapping["uaeen"]= ["english"];
-	mapping["ksa"] 	= ["arabic"];
+	mapping["ksa"] = ["arabic"];
 	mapping["rsa"]	= ["southafrican", "english"];
 	mapping["au"]	= ["australian", "english"];
 	mapping["nz"]	= ["newz", "english"];
@@ -652,7 +652,6 @@ var fbf = (function () {
 	mapping["pl"]	= ["polish"];
 	mapping["uaear"]= ["arabic"];
 	mapping["ru"]	= ["russian"];
-	mapping["tch"]	= ["chinese"];
 
 	for(var key in mapping) mapping[key].push("default");
 

@@ -99,7 +99,6 @@ function loadSvgs()
 function defaultsetup()
 {
 	logging = fbf.isLocal();
-	log(fbf.logDom(_root)); 
 	fbf.clean(_root);
 	fbf.replaceSVGDefs();
 	fbf.displayBlock(_root);
@@ -333,7 +332,6 @@ function animateTabletGlow(delay)
 function setListeners()
 {
   _root.addEventListener("mouseenter", animateButton);
-  _root.addEventListener("click", handleClick);
 }
 
 var _root = $('root');

@@ -43,7 +43,6 @@ function setExits()
 
 function startBanner() 
 {
-	console.log("\nstartBanner\n\n");
 	loadJS(getConfigAssetPath(),loadScripts);
 }
 
@@ -64,11 +63,8 @@ var numberArray = [];
 
 function randomiseProductsAndReportingLabelsTogether()
 {
-	log("\nrandomiseProductsAndReportingLabelsTogether\n\n");
 	getSequenceLength(mc_products.children.length);
-	log("\nProduct order before shuffle: "+numberArray+"\n\n");
 	shuffleArrayRandomly(numberArray);
-	log("\nProduct order after shuffle: "+numberArray+"\n\n");
 	reOrganiseProducts();
 }
 
@@ -126,16 +122,9 @@ function loadSvgs()
 	}
 }
 
-function reportConfig()
-{
-	for (key in config) {if(config.hasOwnProperty(key))log(key+" : "+config[key])};
-}
-
 function setupAd() 
 {
     logging = fbf.isLocal();
-	reportConfig();
-    log(fbf.logDom(_root));   
     fbf.clean(_root);
     fbf.replaceSVGDefs();
     fbf.displayBlock(_root);
@@ -147,9 +136,6 @@ function setupAd()
 
 function setup()
 {
-   	console.log('%c\nSCREW' + '%cFIX\n', 'color: #1C54A1; font-weight: bold', 'color: #E41B1D; font-style: italic; font-weight: bold')
-	console.log('%c\n FREEEEEZE \n', 'background: #27C3D7; color: #FFFFFF')
-
 	createSVGgradient();
 	setUpfreeze();
     hideSections();
@@ -166,8 +152,6 @@ function hideSections()
 
 function createSVGgradient()
 {
-	console.log("\ncreateSVGgradient\n\n");
-
 	var svgns = "http://www.w3.org/2000/svg";
 
 	var svg = document.createElementNS (svgns, "svg");
@@ -213,8 +197,6 @@ function createSVGgradient()
 	svg.appendChild(rect);
 
 	mc_frame.appendChild(svg);
-
-	console.log(svg);
 }
 
 /*$$$$$$\ $$$$$$$\  $$$$$$$$\ $$$$$$$$\ $$$$$$$$\ $$$$$$$$\ 
@@ -237,7 +219,6 @@ finalOutputDATA;
 
 function getImageForCanvas(item)
 {
- log("getImageForCanvas");
   var rainJpg;
    if(demo == true)
     {   
@@ -254,8 +235,6 @@ function getImageForCanvas(item)
 
 function setUpfreeze()
 {
-	log("\nsetUpfreeze\n\n");
-
 	fbf.hide(mc_intro);
     fbf.hide(mc_sectionbg);
     fbf.hide(mc_sectionbg_two);
@@ -275,19 +254,13 @@ function setUpfreeze()
 		getCorrectImage.src = getImageForCanvas('spritesheet0.jpg');
 
 	getCorrectImage.onload = function()
-	{
-    	console.log("\n\nl o a d e d\n\n\n");
-
-		console.log(getCorrectImage);
-	
+	{	
     	var getToleranceImage = mc_tolerance_map_image.children[0].style.backgroundPosition.split("px");
     	var imageOne = mc_imageone.children[0].style.backgroundPosition.split("px");
     	var imageTwo = mc_imagetwo.children[0].style.backgroundPosition.split("px");
 	
     	//"spritesheet0.jpg"
-		
-    	log(getToleranceImage,imageOne,imageTwo);
-		
+				
     	ctx.drawImage(getCorrectImage, -1*getToleranceImage[0], -1*getToleranceImage[1], WID, HEI, 0, 0, WID, HEI);
     	ctx.drawImage(getCorrectImage, -1*imageOne[0],-1*imageOne[1], WID, HEI, WID,0, WID, HEI);
     	ctx.drawImage(getCorrectImage, -1*imageTwo[0],-1*imageTwo[1] ,WID, HEI, WID*2, 0, WID, HEI);
@@ -295,9 +268,7 @@ function setUpfreeze()
     	thresholdSrcDATARAW = ctx.getImageData(0, 0, WID, HEI);
     	imageOneSrcDATARAW = ctx.getImageData(WID,0,WID,HEI);
     	imageTwoSrcDATARAW = ctx.getImageData(WID*2,0,WID,HEI);
-		
-    	log(thresholdSrcDATARAW);
-		
+				
     	thresholdctx = $("threshold").getContext("2d");
     	finalOutputCanvasctx = $("finaloutput").getContext("2d");
 		
@@ -358,8 +329,6 @@ function showToleranceMap(thresholdVal)
 
 function createCanvas(nameOfCanvas,WID,HEI)
 {
-	log("\ncreateCanvas\n\n");
-
 	var canvas_tray = document.createElement("canvas");
 		canvas_tray.className = "do";
 		canvas_tray.width = WID;
@@ -371,7 +340,6 @@ function createCanvas(nameOfCanvas,WID,HEI)
 
 function setListeners()
 {
-	_root.addEventListener("click", handleClick);
 	_root.addEventListener('mouseover', ad_rollOver, false);
 	_root.addEventListener('mouseout', ad_rollOut, false); 
 }
@@ -415,8 +383,6 @@ $$$$$$$  |$$ |  $$ |$$ | \$$ |$$ | \$$ |$$$$$$$$\ $$ |  $$ |      $$ |      $$$$
 
 function startFlow()
 {
-	log("\nstartFlow\n\n");
-
     updateColor(mc_sectionbg,config.introbgColour);
     updateColor(mc_sectionframe,config.frameColour);
     updateColor(mc_product_1.children[1],config.nomTextColour);
@@ -525,7 +491,6 @@ function bringTheFrost()
 	}
 	else
 	{
-	 	log("we done freezing");
 	 	fbf.show(mc_bg_for_products);
 	 	fbf.displayBlock(mc_bg_for_products);
 	 	TweenMax.from(mc_bg_for_products,1,{alpha:0,ease: Expo.easeOut});
@@ -712,8 +677,6 @@ function productSetup()
 	fbf.displayNone(mc_intro);
 	prodTotal = mc_products.children.length;
 
-	log("\nTotal number of products is: "+prodTotal+"\n\n");
-
 	setUpPipsAndArrows();
 	productAnimation();
 	ctaSetup();
@@ -879,30 +842,6 @@ function pipClick(event)
   $$ |  $$ |\$$$ |   $$ |   $$ |      $$ |  $$ |$$ |  $$ |$$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
 $$$$$$\ $$ | \$$ |   $$ |   $$$$$$$$\ $$ |  $$ |$$ |  $$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
 \______|\__|  \__|   \__|   \________|\__|  \__|\__|  \__| \______/   \__|   \______| \______/ \__|  \_*/
-
-function handleClick(event)
-{
-	log("\nhandleClick\n\n");
-    event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true; 
-    var target = event.target || event.srcElement;
-    var phase = event.eventPhase;
-
-    if (useDefaultClickThrough)
-    {
-        clickLabel = defaultClickURL[0]["productLabel"];
-        clickURL = defaultClickURL[0]["productURL"];
-    }
-    else
-    {
-    	var productIndexCounter = numberArray[prodCounter];
-    	clickLabel = products[productIndexCounter]["productLabel"];
-    	clickURL = products[productIndexCounter]["productURL"];
-    }
-
-    if (useDynamicExit && !fbf.isLocal && !demo) clickURL = dynamicExit;
-    Enabler.exitOverride(clickLabel, clickURL);
-    if (useTracker) trackClick(event.clientX, event.clientY, clickLabel, clickURL); 
-}
 
 function ctaSetup()
 {

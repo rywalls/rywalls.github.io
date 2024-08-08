@@ -389,7 +389,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
        * fired when the document has been completely loaded and parsed.
        */
       function handleDomContentLoaded(event) {
-        console.log('handleDomContentLoaded')
       }
 
       /**
@@ -399,7 +398,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
       function handleWebComponentsReady(event) {
         // Start the Ad lifecycle.
         setTimeout(function() {
-          console.log('handleWebComponentsReady')
           gwdAd.initAd();
         }, 0);
       }
@@ -409,8 +407,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
        * initialized and before the default page of the Ad is shown.
        */
       function handleAdInitialized(event) {
-        console.log('handleAdInitialized');
-        //document.getElementById('loading').style.display = 'none';
       }
 
       window.addEventListener('DOMContentLoaded',
@@ -467,7 +463,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
         }
 
         function onImagesLoaded() {
-          console.log('Finished loading all ' + imagesTotal + ' images. ' + missingImages + ' missing. Starting ad...');
           init();
         }
       })();
@@ -516,7 +511,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
 
     function setupArrowDrop() {
       var arrowElements = document.querySelector('#arrows-container').children;
-      console.log('arrowElements', arrowElements);
 
       for (var i = 0; i < arrowElements.length; i++) {
         var arrowElement = arrowElements[i];
@@ -572,7 +566,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
             top: arrow.top
           })
 
-          //console.log(arrow)
         }
 
         requestAnimationFrame(updateArrowDrop);
@@ -580,7 +573,6 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
     }
 
     function stopArrowDrop() {
-      console.log('stopArrowDrop')
       allowArrowDropUpdate = false;
     }
 
@@ -911,6 +903,4 @@ set:function(a){this.g.height=a}},width:{configurable:!0,enumerable:!0,get:funct
   </script>
 
 
-<script data-exports-type="gwd-studio-registration">function StudioExports() {
-Enabler.exit("clicktag", "");
-}</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clicktag"}],"creativeProperties":{"minWidth":300,"minHeight":600,"maxWidth":300,"maxHeight":600},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-taparea"],"responsive":false}</script><script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script></body></html>
+<script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script><script type="text/gwd-admetadata">{"version":1,"type":"GoogleAd","format":"","template":"Banner 3.0.0","politeload":true,"fullscreen":false,"counters":[],"timers":[],"exits":[{"exitId":"clicktag"}],"creativeProperties":{"minWidth":300,"minHeight":600,"maxWidth":300,"maxHeight":600},"components":["gwd-google-ad","gwd-image","gwd-page","gwd-pagedeck","gwd-taparea"],"responsive":false}</script><script data-exports-type="dclk-quick-preview">studio.Enabler.setRushSimulatedLocalEvents(true);</script></body></html>
