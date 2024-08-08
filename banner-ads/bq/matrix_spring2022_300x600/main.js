@@ -1,5 +1,3 @@
-var onov = (window.location.href.indexOf("http://ocean") == 0 || window.location.href.indexOf("https://ocean") == 0);
-var weLocal = window.location.protocol === "file:" || window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1" || window.location.href.indexOf("http://192.168.1") == 0;
 var isIE = window.document.documentMode;
 
 var ad = {width: 300, height: 600};
@@ -38,15 +36,10 @@ $$ |     $$ |  $$ |$$ |  $$ |$$ |  $$ |
 $$$$$$$$\ $$$$$$  |$$ |  $$ |$$$$$$$  |
 \________|\______/ \__|  \__|\______*/
 
-function getConfigPath() {
-    if(weLocal || onov) return 'config.js'
-    else return dc['asset_config'].Url
-}
-
 function loadScripts() {
     // loadJS([getConfigPath()], loadSvgs);
     // loadJS([getConfigPath()], loadImages);
-    loadJS([getConfigPath()], setupAd);
+    loadJS(['config.js'], setupAd);
 }
 
 // function loadSvgs() {
@@ -65,13 +58,8 @@ function loadImages() {
     for (var i = imagesToLoad.length - 1; i >= 0; i--) {
         var img = new Image;
         img.addEventListener('load', imgIncrement, false);
-        img.src = getImgPath(imgPaths[i]);
+        img.src = imgPaths[i];
     }
-}
-
-function getImgPath(src) {
-    if(weLocal || onov) return src
-    else return "dir_assets/" + src
 }
 
 function imgIncrement(e) {
