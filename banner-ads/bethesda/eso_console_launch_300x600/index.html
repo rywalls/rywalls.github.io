@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<meta name="generator" content="fbf_exporter:v0.9.9.6"><meta name="ad.size" content="width=300,height=600"><style type="text/css">.do {
+					display:block;
+					position:absolute;
+					visibility:inherit;
+					overflow:visible;
+					-moz-transform:matrix(1, 0, 0, 1, 0, 0);-ms-transform:matrix(1, 0, 0, 1, 0, 0);-o-transform:matrix(1, 0, 0, 1, 0, 0);-webkit-transform:matrix(1, 0, 0, 1, 0, 0);transform:matrix(1, 0, 0, 1, 0, 0);
+					-moz-transform-origin:0px 0px;-ms-transform-origin:0px 0px;-o-transform-origin:0px 0px;-webkit-transform-origin:0px 0px;transform-origin:0px 0px;
+					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
+				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
+<script id="script_util" type="text/javascript">
+			//global load javascript function
+			function loadJS(src, callback, sync) {
+				if (typeof src === 'string') {
+					var s = document.createElement('script');
+					s.src = src;
+					s.async = true;
+					s.onreadystatechange = s.onload = function() {
+						var state = s.readyState;
+						if (!callback[src] && (!state || /loaded|complete/.test(state))) {
+							callback[src] = true;
+							callback();
+						}
+					};
+					document.getElementsByTagName('head')[0].appendChild(s);
+				}else if (src.length) {
+					var count = src.length;
+					var i = 0;
+					if (sync)
+					{
+						function loadNext()
+						{
+							loadJS(src[i++], function() {
+								if(--count == 0)	callback();
+								else 				loadNext();
+							});
+						}
+						loadNext();
+					}else {
+						while (i < src.length) {
+							loadJS(src[i++], function(){
+									if(--count == 0)callback();
+								}
+							);
+						};
+					}
+
+				}
+			}
+			//global gebid function
+			function $(id)
+			{
+				if (arguments.length > 1)
+				{
+					var elements = [];
+					for (var i = 0; i < arguments.length; i++)	elements.push($(arguments[i]));
+					return elements;
+				}else{
+					var element = document.getElementById(id);
+					return element;
+				}
+			}
+			//dom build functions
+			function getPropPrefix(p)
+			{
+				var e = document.createElement("div");
+				var s = e.style, a, i;
+				if (s[p] !== undefined)	return p;
+				p = p.charAt(0).toUpperCase() + p.substr(1);
+				a = ["O","Moz","ms","Ms","Webkit"];
+				i = 5;
+				while (--i > -1 && s[a[i]+p] === undefined) { }
+				if (i >= 0){
+					_prefix = (i === 3) ? "ms" : a[i];
+					return _prefix + p;
+				}
+				return null;
+			}
+			var transform = getPropPrefix("transform");
+
+
+			function buildDom(target, dom)
+			{
+				var body = document.body;
+				var _div = div();
+				if (dom == undefined) dom = _ad.doms[_ad.doms.length - 1];
+				
+				var spriteCss = "";
+				var module = (window.moduleIndex !== undefined) ? "m" + window.moduleIndex : "";
+				for (var i = 0; i < dom.sst.length; i++ )
+				{
+					spriteCss += "." + module + "sst" + i + dom.sst[i] + "\n";
+				}
+				for (var i = 0; i < dom.sso.length; i++ )
+				{
+					spriteCss += "." + module + "sso" + i + dom.sso[i] + "\n";
+				}
+				
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				if (style.styleSheet){
+				  style.styleSheet.cssText = spriteCss;
+				} else {
+				  style.appendChild(document.createTextNode(spriteCss));
+				}
+				document.head.appendChild(style);
+				
+				extract(dom, _div, dom.types);
+				if(target){
+					typeof target === "string" ? document.getElementById(target).appendChild(_div) : target.appendChild(_div); 
+				}else{
+					body.appendChild(_div);						
+				}
+			}
+			//TODO removes types and make it avail outside
+			function extract(ob, parent, types)
+			{
+				var isSvg = (ob.u || ob.svg) ? true : false;
+				var el = isSvg ? svg() : div();
+				el.className = "do";
+				if(isSvg)	el.setAttribute("class", "do");
+				if (ob.i) {
+					el.id = ob.i;
+					if (el.id == "root") el.style.display = "none";
+				}
+				if(ob.t)	el.setAttribute("data-type", types[ob.t]);
+				if(ob.c)	for (var i = 0; i < ob.c.length; i++) extract(ob.c[i], el, types);
+				if(ob.w)	isSvg ? el.setAttribute("width", ob.w + "px") : el.style.width = ob.w + "px";
+				if(ob.h)	isSvg ? el.setAttribute("height", ob.h + "px") :  el.style.height = ob.h + "px";
+				if(ob.x)	el.style.left = ob.x + "px";
+				if(ob.y)	el.style.top = ob.y + "px";
+				if(ob.bx || ob.by)	el.style.backgroundPosition = def(ob.bx, 0) + "px" + " " + def(ob.by, 0) + "px";
+				//if(typeof ob.ta != "undefined" || typeof ob.tb != "undefined" || typeof ob.tc != "undefined" || typeof ob.td != "undefined" || typeof ob.tx != "undefined" || typeof ob.ty != "undefined")
+				if(isDef(ob.ta, ob.tb, ob.tc, ob.td, ob.tx, ob.ty))
+				{
+					//console.log(getPropPrefix("transform"));	//webkitTransform
+					el.style[transform] = "matrix("+def(ob.ta,1) + "," + def(ob.tb,0) + "," + def(ob.tc,0) + "," + def(ob.td,1) + "," + def(ob.tx,0) + "," + def(ob.ty,0) + ")";
+				}
+				if(isDef(ob.mx, ob.my))
+				{
+					//console.log(getPropPrefix("transform"));	//webkitTransform
+					el.style[transform] = "matrix(1,0,0,1," + -def(ob.mx,0) + "," + -def(ob.my,0) + ")";
+				}
+				if(ob.k)	el.className += " " + ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + ob.k : ob.k);
+				if(ob.u)	buildUse(ob.u, el);
+				if(ob.svg)	buildSVG(ob.svg, el);	//el.innerHTMl = 
+				if(ob.col)	el.setAttribute("fill",  ob.col);
+				if(parent)	parent.appendChild(el);
+			}
+			function buildSVG(data, el, col)
+			{
+				var svgns = "http://www.w3.org/2000/svg";
+				var xlinkns = "http://www.w3.org/1999/xlink";
+				var parentTag = el;
+				for (var i = 0; i < data.length; i+=5)
+				{
+					//var useTag = document.createElement("use");
+					var useTag = document.createElementNS(svgns, "use");
+					var id = "#f" + data[i] + "_" + data[i + 1];
+					var mtx = "matrix(" + data[i + 2] + ",0,0," + data[i + 2] + "," + data[i + 3] + "," + data[i + 4] + ")";
+					useTag.setAttributeNS(xlinkns, "xlink:href", id);
+					useTag.setAttribute("transform", mtx);
+					useTag.style[transform] = mtx;						
+					parentTag.appendChild(useTag);
+					//console.log(parentTag, useTag);
+				}
+			}
+			function buildUse(id, el)
+			{
+				var svgns = "http://www.w3.org/2000/svg";
+				var xlinkns = "http://www.w3.org/1999/xlink";
+				var useTag = document.createElementNS(svgns, "use");
+				var link = ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + id : id);
+				useTag.setAttributeNS(xlinkns, "xlink:href", "#" + link);
+				el.appendChild(useTag);
+			}
+			//TODO::  make is def function args
+			function isDef()
+			{
+				for(var i=0; i<arguments.length; i++) if(typeof arguments[i] != "undefined") return true;
+				return false;
+			}
+			function def(value, _default)
+			{
+				return typeof value == "undefined" ? _default : value;
+			}
+			function div()
+			{
+				return document.createElement("div");
+			}
+			function svg()
+			{
+				var el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+				el.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
+				//el.setAttributeNS(ns, "xmlns", SVG_NS);
+				return el;
+			}
+			</script>
+<script id="script_font" type="text/javascript">var fonts = {};
+fonts["Garamond_Premiere_Pro_Semibold_GFX"]={"id":0,"leading":40,"ascent":16384,"descent":3072,"advance":{"65":13864,"66":12676,"67":14540,"68":15564,"69":12021,"70":11140,"71":15216,"72":16731,"73":7556,"74":7311,"75":14397,"76":12001,"77":18145,"78":15810,"79":16035,"80":11960,"81":16015,"82":13332,"83":10198,"84":13885,"85":15625,"86":13803,"87":20111,"88":14704,"89":13127,"90":12943,"32":3952,"34":7188,"39":4116,"160":3952,"45":6369,"46":4915,"48":10178,"49":10178,"50":10178,"51":10178,"52":10178,"53":10178,"54":10178,"55":10178,"56":10178,"57":10178},"kerning":{}};
+</script>
+<script id="script_dom" type="text/javascript">_ad.doms = _ad.doms || [];
+var dom = {i:"root",w:300,h:600,c:[{i:"mc_artwork",t:0,w:300,h:600,c:[{i:"mc_background",t:1,w:300,h:600,x:0,y:0,bx:-2,by:-2,k:"sso0"},{i:"mc_foreground_elements",t:2,tx:150,ty:300,w:300,h:600,c:[{i:"mc_foreground",t:3,tx:-150,ty:-300,w:300,h:600,x:0,y:0,bx:-2,by:-2,k:"sst0"},{i:"mc_hand_magic",t:4,ty:-40,w:0,h:0,c:[{i:"mc_hand_magic_right",t:5,tx:50,w:0,h:0},{i:"mc_hand_magic_left",t:6,tx:-50,w:0,h:0}]}]}]},{i:"mc_footer",t:7,w:287,h:42,c:[{i:"mc_rating",t:8,ta:0.72998,td:0.72998,tx:294,ty:594,w:35,h:42,c:[{i:"mc_rating_pegi",t:9,ta:0.49998,td:0.49998,tx:-47,w:47,h:58,c:[{t:10,ta:1.87952,td:1.88452,ty:-115,w:94,h:95,c:[{t:11,w:50,h:50,c:[{w:51,h:51,u:"s0",mx:"0",my:"0"}]},{t:11}]},{t:11,w:94,h:115,c:[{w:94,h:115,u:"s2",mx:"0",my:"115"}]}]}]},{i:"mc_copyright",t:12,tx:7,ty:593,w:70,h:7,c:[{t:11,w:70,h:7,c:[{w:70,h:7,u:"s3",mx:"0",my:"7"}]}]}]},{i:"mc_platform_lockup",t:13,tx:152.2,ty:445,w:142,h:126,c:[{i:"mc_platform_logos_console",t:14,ty:96,w:137,h:37,c:[{t:15,ta:1.05241,td:0.93811,tx:30,w:56,h:9,c:[{t:11,w:54,h:10,c:[{w:54,h:10,u:"s4",mx:"26.6",my:"3"}]}]},{i:"mc_steam",t:16,ta:0.19206,td:0.19254,tx:-34,ty:2,w:57,h:17,c:[{t:11,w:294,h:90,c:[{w:294,h:89,u:"s5",mx:"146.7",my:"44.25"}]}]},{i:"mc_xbox",t:17,ta:0.76215,td:0.75803,tx:32,ty:22,w:71,h:15,c:[{t:11,w:94,h:20,c:[{w:93,h:19,u:"s6",mx:"46.3",my:"8.1"}]}]},{i:"mc_ps4",t:18,ta:0.68948,td:0.689,tx:-39,ty:22,w:60,h:13,c:[{t:11,w:87,h:19,c:[{w:88,h:19,u:"s7",mx:"44.25",my:"8"}]}]}]},{i:"mc_platform_lockup_console_text",t:19,w:142,h:10,c:[{t:11,w:142,h:10,c:[{w:142,h:10,u:"s8",mx:"70",my:"0"}]}]}]},{i:"mc_button",t:20,tx:150,ty:502,w:149,h:32,c:[{i:"mc_smoke_effect",t:21,tx:-0.5,w:0,h:0},{i:"mc_button_background",t:22,w:149,h:32,c:[{t:23,ta:0.5874,td:0.60345,tx:-74,ty:-16,w:252.0419,h:53.02802,bx:-306,by:-2,k:"sso0"}]},{i:"mc_button_text",t:24,w:142,h:10,c:[{t:11,w:142,h:10,c:[{w:142,h:10,u:"s9",mx:"71",my:"5"}]}]}]},{i:"mc_smoke",t:25,tx:-80,ty:36,w:79,h:70,c:[{t:23,tx:-40,ty:-35,w:79,h:70,bx:-306,by:-2,k:"sst0"}]},{i:"mc_elsweyr_logo",t:26,tx:150,ty:70,w:263,h:100,c:[{t:11,w:264,h:100,c:[{w:263,h:100,u:"s10",mx:"131.05",my:"49.7"}]}]},{i:"mc_curtain",t:27,w:300,h:600,c:[{t:11,w:300,h:600,c:[{w:300,h:600,u:"s11",mx:"0",my:"0"}]}]}]};
+dom.types = ["mc_artworkGFX","mc_backgroundGFX","mc_foreground_elementsGFX","mc_foregroundGFX","mc_hand_magicGFX","mc_hand_magic_rightGFX","mc_hand_magic_leftGFX","mc_footerGFX","mc_ratingGFX","mc_rating_pegiGFX","PEGI_repeat_0GFX","flash.display::Shape","mc_copyrightGFX","mc_platform_lockupGFX","mc_platform_logos_consoleGFX","mc_pc_macGFX","mc_steamGFX","mc_xboxGFX","mc_ps4GFX","mc_platform_lockup_console_textGFX","mc_buttonGFX","mc_smoke_effectGFX","mc_button_backgroundGFX","flash.display::Bitmap","mc_button_textGFX","mc_smokeGFX","mc_elsweyr_logoGFX","mc_curtainGFX"];
+dom.sst = ["{background-image: url('spritesheet0.png');background-size:608px 604px;}"
+];
+dom.sso = ["{background-image: url('spritesheet0.jpg');background-size:608px 604px;}"
+];
+_ad.doms.push(dom);
+dom = null;</script>
+</head>
+<body style="margin:0px;" onload="adReady()">
+  <img src="spritesheet0.png" style="display:none;"></img>
+  <img src="spritesheet0.jpg" style="display:none;"></img>
+  <svg id="svg_defs" style="position:absolute"></svg>
+  <script type="text/javascript" src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.18.0_499ba64a23378545748ff12d372e59e9_min.js"></script>
+  <script type="text/javascript" src="fbf.js"></script>
+  <script type="text/javascript">buildDom();</script>
+  <script type="text/javascript" src="main.js"></script>
+  <script>function adReady() {
+					startBanner();
+				}</script>
+</body>
+</html>

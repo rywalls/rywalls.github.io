@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Isolation_Mode" data-name="Isolation Mode" xmlns="http://www.w3.org/2000/svg" width="178.294" height="815.717" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 178.294 815.717">
+  <defs>
+    <radialGradient id="radial-gradient" cx="92.97679" cy="823.77339" fx="92.97679" fy="823.77339" r="86.88749" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fdaa00"/>
+      <stop offset="1" stop-color="#fed000"/>
+    </radialGradient>
+  </defs>
+  <polygon points="39.888 746.18098 5 746.18098 90.845 810.71699 173.294 746.18098 141.80099 746.18098 141.80099 5.00001 39.888 5.00001 39.888 746.18098" style="fill: url(#radial-gradient);"/>
+</svg>

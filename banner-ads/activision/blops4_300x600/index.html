@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<meta name="generator" content="fbf_exporter:v0.9.9.5.bonfire"><style type="text/css">.do {
+					display:block;
+					position:absolute;
+					visibility:inherit;
+					overflow:visible;
+					-moz-transform:matrix(1, 0, 0, 1, 0, 0);-ms-transform:matrix(1, 0, 0, 1, 0, 0);-o-transform:matrix(1, 0, 0, 1, 0, 0);-webkit-transform:matrix(1, 0, 0, 1, 0, 0);transform:matrix(1, 0, 0, 1, 0, 0);
+					-moz-transform-origin:0px 0px;-ms-transform-origin:0px 0px;-o-transform-origin:0px 0px;-webkit-transform-origin:0px 0px;transform-origin:0px 0px;
+					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
+				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
+<script id="script_util" type="text/javascript">
+			//global load javascript function
+			function loadJS(src, callback, sync) {
+				if (typeof src === 'string') {
+					var s = document.createElement('script');
+					s.src = src;
+					s.async = true;
+					s.onreadystatechange = s.onload = function() {
+						var state = s.readyState;
+						if (!callback[src] && (!state || /loaded|complete/.test(state))) {
+							callback[src] = true;
+							callback();
+						}
+					};
+					document.getElementsByTagName('head')[0].appendChild(s);
+				}else if (src.length) {
+					var count = src.length;
+					var i = 0;
+					if (sync)
+					{
+						function loadNext()
+						{
+							loadJS(src[i++], function() {
+								if(--count == 0)	callback();
+								else 				loadNext();
+							});
+						}
+						loadNext();
+					}else {
+						while (i < src.length) {
+							loadJS(src[i++], function(){
+									if(--count == 0)callback();
+								}
+							);
+						};
+					}
+
+				}
+			}
+			//global gebid function
+			function $(id)
+			{
+				if (arguments.length > 1)
+				{
+					var elements = [];
+					for (var i = 0; i < arguments.length; i++)	elements.push($(arguments[i]));
+					return elements;
+				}else{
+					var element = document.getElementById(id);
+					return element;
+				}
+			}
+			//dom build functions
+			function getPropPrefix(p)
+			{
+				var e = document.createElement("div");
+				var s = e.style, a, i;
+				if (s[p] !== undefined)	return p;
+				p = p.charAt(0).toUpperCase() + p.substr(1);
+				a = ["O","Moz","ms","Ms","Webkit"];
+				i = 5;
+				while (--i > -1 && s[a[i]+p] === undefined) { }
+				if (i >= 0){
+					_prefix = (i === 3) ? "ms" : a[i];
+					return _prefix + p;
+				}
+				return null;
+			}
+			var transform = getPropPrefix("transform");
+
+
+			function buildDom(target, dom)
+			{
+				var body = document.body;
+				var _div = div();
+				if (dom == undefined) dom = _ad.doms[_ad.doms.length - 1];
+				
+				var spriteCss = "";
+				var module = (window.moduleIndex !== undefined) ? "m" + window.moduleIndex : "";
+				for (var i = 0; i < dom.sst.length; i++ )
+				{
+					spriteCss += "." + module + "sst" + i + dom.sst[i] + "\n";
+				}
+				for (var i = 0; i < dom.sso.length; i++ )
+				{
+					spriteCss += "." + module + "sso" + i + dom.sso[i] + "\n";
+				}
+				
+				var style = document.createElement('style');
+				style.type = 'text/css';
+				if (style.styleSheet){
+				  style.styleSheet.cssText = spriteCss;
+				} else {
+				  style.appendChild(document.createTextNode(spriteCss));
+				}
+				document.head.appendChild(style);
+				
+				extract(dom, _div, dom.types);
+				if(target){
+					typeof target === "string" ? document.getElementById(target).appendChild(_div) : target.appendChild(_div); 
+				}else{
+					body.appendChild(_div);						
+				}
+			}
+			//TODO removes types and make it avail outside
+			function extract(ob, parent, types)
+			{
+				var isSvg = (ob.u || ob.svg) ? true : false;
+				var el = isSvg ? svg() : div();
+				el.className = "do";
+				if(isSvg)	el.setAttribute("class", "do");
+				if (ob.i) {
+					el.id = ob.i;
+					if (el.id == "root") el.style.display = "none";
+				}
+				if(ob.t)	el.setAttribute("data-type", types[ob.t]);
+				if(ob.c)	for (var i = 0; i < ob.c.length; i++) extract(ob.c[i], el, types);
+				if(ob.w)	isSvg ? el.setAttribute("width", ob.w + "px") : el.style.width = ob.w + "px";
+				if(ob.h)	isSvg ? el.setAttribute("height", ob.h + "px") :  el.style.height = ob.h + "px";
+				if(ob.x)	el.style.left = ob.x + "px";
+				if(ob.y)	el.style.top = ob.y + "px";
+				if(ob.bx || ob.by)	el.style.backgroundPosition = def(ob.bx, 0) + "px" + " " + def(ob.by, 0) + "px";
+				//if(typeof ob.ta != "undefined" || typeof ob.tb != "undefined" || typeof ob.tc != "undefined" || typeof ob.td != "undefined" || typeof ob.tx != "undefined" || typeof ob.ty != "undefined")
+				if(isDef(ob.ta, ob.tb, ob.tc, ob.td, ob.tx, ob.ty))
+				{
+					//console.log(getPropPrefix("transform"));	//webkitTransform
+					el.style[transform] = "matrix("+def(ob.ta,1) + "," + def(ob.tb,0) + "," + def(ob.tc,0) + "," + def(ob.td,1) + "," + def(ob.tx,0) + "," + def(ob.ty,0) + ")";
+				}
+				if(isDef(ob.mx, ob.my))
+				{
+					//console.log(getPropPrefix("transform"));	//webkitTransform
+					el.style[transform] = "matrix(1,0,0,1," + -def(ob.mx,0) + "," + -def(ob.my,0) + ")";
+				}
+				if(ob.k)	el.className += " " + ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + ob.k : ob.k);
+				if(ob.u)	buildUse(ob.u, el);
+				if(ob.svg)	buildSVG(ob.svg, el);	//el.innerHTMl = 
+				if(ob.col)	el.setAttribute("fill",  ob.col);
+				if(parent)	parent.appendChild(el);
+			}
+			function buildSVG(data, el, col)
+			{
+				var svgns = "http://www.w3.org/2000/svg";
+				var xlinkns = "http://www.w3.org/1999/xlink";
+				var parentTag = el;
+				for (var i = 0; i < data.length; i+=5)
+				{
+					//var useTag = document.createElement("use");
+					var useTag = document.createElementNS(svgns, "use");
+					var id = "#f" + data[i] + "_" + data[i + 1];
+					var mtx = "matrix(" + data[i + 2] + ",0,0," + data[i + 2] + "," + data[i + 3] + "," + data[i + 4] + ")";
+					useTag.setAttributeNS(xlinkns, "xlink:href", id);
+					useTag.setAttribute("transform", mtx);
+					useTag.style[transform] = mtx;						
+					parentTag.appendChild(useTag);
+					//console.log(parentTag, useTag);
+				}
+			}
+			function buildUse(id, el)
+			{
+				var svgns = "http://www.w3.org/2000/svg";
+				var xlinkns = "http://www.w3.org/1999/xlink";
+				var useTag = document.createElementNS(svgns, "use");
+				var link = ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + id : id);
+				useTag.setAttributeNS(xlinkns, "xlink:href", "#" + link);
+				el.appendChild(useTag);
+			}
+			//TODO::  make is def function args
+			function isDef()
+			{
+				for(var i=0; i<arguments.length; i++) if(typeof arguments[i] != "undefined") return true;
+				return false;
+			}
+			function def(value, _default)
+			{
+				return typeof value == "undefined" ? _default : value;
+			}
+			function div()
+			{
+				return document.createElement("div");
+			}
+			function svg()
+			{
+				var el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+				el.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
+				//el.setAttributeNS(ns, "xmlns", SVG_NS);
+				return el;
+			}
+			</script>
+<script id="script_font" type="text/javascript">var fonts = {};
+fonts["dateFontGFX"]={"id":0,"leading":40,"ascent":16384,"descent":4833,"advance":{"8211":10240,"8212":20480,"8216":6778,"8217":6778,"8218":6778,"8220":11857,"8221":11857,"8222":11857,"32":7925,"33":7864,"34":6143,"35":15749,"36":15830,"37":16363,"38":16875,"39":3174,"40":6778,"41":6778,"42":10240,"43":17059,"44":6778,"45":6758,"46":6778,"47":5693,"48":15830,"49":15830,"50":15830,"51":15830,"52":15830,"53":15830,"54":15830,"55":15830,"56":15830,"57":15830,"58":6778,"59":6778,"60":17059,"61":17059,"62":17059,"63":13557,"64":20480,"65":15790,"66":16260,"67":16404,"68":17346,"69":15462,"70":13741,"71":17510,"72":18022,"73":7864,"74":13660,"75":16260,"76":13987,"77":18964,"78":17796,"79":17981,"80":15216,"81":17981,"82":16424,"83":16568,"84":12800,"85":17325,"86":13946,"87":18964,"88":14704,"89":13762,"90":13967,"91":6778,"92":5693,"93":6778,"94":20480,"95":10240,"96":10240,"8226":12083,"8240":23756,"8230":20480,"352":16568,"8249":6778,"8250":6778,"8224":10240,"8225":10240,"8482":17059,"376":13762,"123":10240,"124":10240,"125":10240,"126":17059,"381":13967,"160":7925,"161":7864,"169":17059,"174":17059,"191":13557,"192":15790,"193":15790,"194":15790,"195":15790,"196":15790,"197":15790,"198":21892,"199":16404,"200":15462,"201":15462,"202":15462,"203":15462,"204":7864,"205":7864,"206":7864,"209":17796,"210":17981,"211":17981,"212":17981,"213":17981,"214":17981,"710":10240,"216":17981,"217":17325,"218":17325,"219":17325,"220":17325,"221":13762,"223":27156,"732":10240},"kerning":{}};
+fonts["buttonTextGFX"]={"id":1,"leading":40,"ascent":19087,"descent":3543,"advance":{"376":14663,"8217":5857,"32":6143,"33":6635,"34":10649,"38":14254,"160":6143,"161":6635,"44":5857,"45":8355,"46":5857,"169":16998,"174":16998,"191":11140,"192":16179,"65":16179,"66":14786,"67":15114,"68":16015,"69":13721,"70":13434,"71":16056,"72":15564,"73":6881,"74":11550,"75":14950,"76":12676,"77":17776,"78":16179,"79":17407,"80":13680,"81":17407,"82":14806,"83":13107,"84":13270,"85":15482,"86":15360,"87":22978,"88":14991,"89":14663,"90":14499,"202":13721,"193":16179,"194":16179,"195":16179,"196":16179,"197":16179,"198":21401,"199":15114,"200":13721,"201":13721,"212":17407,"203":13721,"204":6881,"205":6881,"206":6881,"217":15482,"218":15482,"209":16179,"210":17407,"211":17407,"213":17407,"214":17407,"216":17407,"219":15482,"220":15482,"221":14663,"223":12697,"352":13107,"381":14499,"126":10444},"kerning":{}};
+</script>
+<script id="script_dom" type="text/javascript">_ad.doms = _ad.doms || [];
+var dom = {i:"root",w:300,h:600,c:[{i:"mc_background",t:0,ta:0.5,td:0.5,w:300,h:600,c:[{i:"mc_bg_house",t:1,w:600,h:1200,x:0,y:0,bx:-2,by:-2,k:"sso0"}]},{i:"mc_ruin",t:2,ta:0.99998,td:0.99998,w:300,h:600,c:[{i:"mc_ruin_scaled",t:3,w:300,h:600,x:0,y:0,bx:-2,by:-2,k:"sst0"}]},{i:"mc_rating",t:4,ta:0.49998,td:0.49998,tx:5,ty:594,w:35,h:44,c:[{i:"rating_english",t:5,ta:0.61105,td:0.61105,tx:30.65,ty:-44.6,w:62,h:87,c:[{t:6,w:101,h:142,c:[{w:100,h:141,u:"s0",mx:"49.85",my:"60.75"}]}]},{i:"rating_french",t:7,ta:0.61105,td:0.61105,tx:30.6,ty:-44.5,w:62,h:87,c:[{t:8,td:0.99879,w:101,h:122,c:[{t:6,w:100,h:122,c:[{w:100,h:122,u:"s1",mx:"50",my:"61"}]}]},{t:6,w:102,h:17,c:[{w:101,h:82,u:"s2",mx:"50.05",my:"0"}]}]},{i:"rating_spanish",t:9,ta:0.61105,td:0.61105,tx:30.6,ty:-44.45,w:62,h:85,c:[{t:6,w:100,h:139,c:[{w:100,h:139,u:"s3",mx:"50",my:"61"}]}]},{i:"rating_italian",t:10,ta:0.61105,td:0.61105,tx:30.5,ty:-42.95,w:62,h:85,c:[{t:6,w:101,h:139,c:[{w:100,h:139,u:"s4",mx:"49.85",my:"60.75"}]}]},{i:"rating_german",t:11,ta:0.61105,td:0.61105,tx:39.55,ty:-33.4,w:67,h:66,c:[{t:12,ta:2.36188,td:2.36188,tx:-64.6,ty:-44.35,w:106,h:106,c:[{t:6,w:45,h:45,c:[{w:45,h:45,u:"s5",mx:"0",my:"0"}]}]},{t:6,w:109,h:109,c:[{w:109,h:108,u:"s6",mx:"64.75",my:"46.15"}]}]},{i:"rating_australian",t:13,ta:0.55193,td:0.55193,tx:34.25,ty:-29.7,w:68,h:68,c:[{t:14,ta:1.97446,td:1.97446,tx:-61.75,ty:-61.6,w:124,h:123,c:[{t:6,w:63,h:63,c:[{w:63,h:63,u:"s7",mx:"0.05",my:"0"}]}]}]},{i:"rating_dutch",t:15,ta:0.61105,td:0.61105,tx:30.6,ty:-44.45,w:62,h:86,c:[{t:6,w:100,h:141,c:[{w:100,h:141,u:"s8",mx:"50",my:"61"}]}]},{i:"rating_russian",t:16,ta:0.48473,td:0.48473,tx:31.85,ty:-29.6,w:64,h:70,c:[{t:6,w:132,h:145,c:[{w:131,h:144,u:"s9",mx:"65.3",my:"71.9"}]}]},{i:"mc_rating_polish",t:17,ta:0.61105,td:0.61105,tx:30.5,ty:-43.9,w:62,h:87,c:[{t:6,w:101,h:142,c:[{w:100,h:142,u:"s10",mx:"49.85",my:"60.75"}]}]}]},{i:"mc_devLogos",t:18,tx:-14,ty:506,w:107,h:14,c:[{t:19,tx:115.8,ty:75.7,w:51,h:13,c:[{t:6,w:51,h:13,c:[{w:51,h:13,u:"s11",mx:"0",my:"0"}]}]},{t:20,ta:0.95999,td:0.95999,tx:59.85,ty:75,w:45,h:14,c:[{t:6,w:47,h:15,c:[{w:48,h:15,u:"s12",mx:"0.35",my:"0"}]}]}]},{i:"mc_button",t:21,ta:0.39998,td:0.39998,tx:149,ty:520,w:180,h:32,c:[{t:6,w:450,h:80,c:[{w:450,h:80,u:"s13",mx:"225",my:"40"}]}]},{i:"mc_video_intro",t:22,w:0,h:0},{i:"mc_video_logo",t:23,td:0.99998,tx:150,ty:41.4,w:148,h:69,c:[{t:6,w:149,h:70,c:[{w:148,h:69,u:"s14",mx:"73.8",my:"34.3"}]}]},{i:"mc_ps4",t:24,ta:0.79999,td:0.79999,w:222,h:94,c:[{t:25,tx:-231.4,ty:-122.85,w:276.45,h:116.65,x:225,y:100,bx:-2,by:-606,k:"sst0"}]},{i:"mc_accolade_house",t:26,w:0,h:0,c:[{i:"mc_accoladesmudge",t:27}]},{i:"mc_logo",t:28,ta:0.49998,td:0.49998,tx:150,ty:276,w:211,h:113,c:[{i:"mc_logobox",t:29,w:421.65,h:224.55,x:-210,y:-112,bx:-283,by:-606,k:"sst0"}]},{i:"mc_date",t:30,td:0.99998,tx:149,ty:474,w:232,h:30,c:[{t:6,w:233,h:31,c:[{w:232,h:30,u:"s15",mx:"116.05",my:"14.7"}]}]},{i:"mc_strapline",t:31,td:0.99998,tx:150.7,ty:133.15,w:175,h:27,c:[{t:6,w:176,h:28,c:[{w:175,h:27,u:"s16",mx:"88.2",my:"13.05"}]}]},{i:"mc_black",t:32,w:300,h:600,c:[{t:6,ta:13.63637,td:27.27272,tx:150,ty:300,w:301,h:600,c:[{ta:13.63637,td:27.27272,tx:150,ty:300,w:22,h:22,u:"s17",mx:"11",my:"11"}]}]},{i:"mc_close",t:33,tx:500,w:44,h:44,c:[{i:"btn_close",t:34,ta:2,td:2,w:44,h:44,c:[{i:"mc_btn_bg",t:35,tx:-11,ty:11,w:22,h:22,c:[{t:6,w:22,h:22,c:[{w:22,h:22,u:"s17",mx:"11",my:"11"}]}]},{i:"mc_close_cross",t:36,ta:0.9929,td:0.9929,tx:-11,ty:11,w:13,h:13,c:[{t:6,w:14,h:14,c:[{w:13,h:13,u:"s18",mx:"6.35",my:"6.35"}]}]},{i:"mc_flash",t:37,tx:-22,w:0,h:0},{i:"mc_ctahit",t:38,ta:0.14667,td:0.91667,tx:-22,w:22,h:22,c:[{t:6,w:150,h:24,c:[{w:150,h:24,u:"s19",mx:"0",my:"0"}]}]}]}]}]};
+dom.types = ["mc_bg_houseGFX","mc_backgroundGFX","mc_ruinGFX","mc_ruin_scaledGFX","mc_ratingGFX","mc_rating_pegi_englishGFX","flash.display::Shape","mc_fr_pegi_ratingGFX","mc_rating_pegiGFX","mc_rating_pegi_spanishGFX","mc_rating_pegi_italianGFX","mc_rating_uskGFX","<Path>_22GFX","mc_rating_pegi_australianGFX","<Clip_Group>GFX","mc_rating_pegi_dutchGFX","mc_ru_ageGFX","mc_rating_pegi_polishGFX","mc_devLogosGFX","activisionGFX","treyarchGFX","mc_buttonGFX","mc_video_introGFX","mc_video_logoGFX","mc_ps4GFX","ps4GFX","mc_accolade_houseGFX","mc_accoladesmudgeGFX","mc_logoGFX","mc_logo_boxGFX","mc_dateGFX","mc_straplineGFX","mc_blackGFX","mc_closeGFX","btn_closeGFX","mc_close_bgGFX","crossGFX","mc_flashGFX","mc_ctahitGFX"];
+dom.sst = ["{background-image: url('spritesheet0.png');background-size:1300px 1300px;}"
+];
+dom.sso = ["{background-image: url('spritesheet0.jpg');background-size:1300px 1300px;}"
+];
+_ad.doms.push(dom);
+dom = null;</script>
+</head>
+<body style="margin:0px;" onload="adReady()">
+  <img src="spritesheet0.png" style="display:none;"></img>
+  <img src="spritesheet0.jpg" style="display:none;"></img>
+  <svg id="svg_defs" style="position:absolute"></svg>
+  <noscript>
+    <img src="backup.jpg"></img>
+  </noscript>
+  <script type="text/javascript" src="https://s0.2mdn.net/ads/studio/Enabler.js"></script>
+  <script type="text/javascript" src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.18.0_499ba64a23378545748ff12d372e59e9_min.js"></script>
+  <script type="text/javascript">buildDom();</script>
+  <script type="text/javascript" src="main.js"></script>
+  <script>function adReady() {
+					startBanner();
+				}</script>
+</body>
+</html>

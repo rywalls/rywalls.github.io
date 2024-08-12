@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<meta name="generator" content="fbf_exporter:v0.9.9.8"><meta name="ad.size" content="width=300,height=250"><style type="text/css">.do {
+					display:block;
+					position:absolute;
+					visibility:inherit;
+					overflow:visible;
+					-moz-transform:matrix(1, 0, 0, 1, 0, 0);-ms-transform:matrix(1, 0, 0, 1, 0, 0);-o-transform:matrix(1, 0, 0, 1, 0, 0);-webkit-transform:matrix(1, 0, 0, 1, 0, 0);transform:matrix(1, 0, 0, 1, 0, 0);
+					-moz-transform-origin:0px 0px;-ms-transform-origin:0px 0px;-o-transform-origin:0px 0px;-webkit-transform-origin:0px 0px;transform-origin:0px 0px;
+					-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;					 
+				}</style><script id="script_ad" type="text/javascript">var _ad = _ad || {};</script>
+<script id="script_util" type="text/javascript">
+			var $svg = {s:"http://www.w3.org/2000/svg",x:"http://www.w3.org/1999/xlink"};
+			function loadJS(src, callback, sync) {
+				if (typeof src === 'string') {
+					var s = document.createElement('script');
+					s.src = src;
+					s.async = true;
+					s.onreadystatechange = s.onload = function() {
+						var state = s.readyState;
+						if (!callback[src] && (!state || /loaded|complete/.test(state))) {
+							callback[src] = true;
+							callback();
+						}
+					};
+					document.getElementsByTagName('head')[0].appendChild(s);
+				}else if (src.length) {
+					var count = src.length;
+					var i = 0;
+					if (sync)
+					{
+						function loadNext()
+						{
+							loadJS(src[i++], function() {
+								if(--count == 0)	callback();
+								else 				loadNext();
+							});
+						}
+						loadNext();
+					}else {
+						while (i < src.length) {
+							loadJS(src[i++], function(){
+									if(--count == 0)callback();
+								}
+							);
+						};
+					}
+
+				}
+			}
+			function $(id)
+			{
+				var l=arguments.length;
+				if(l>1)
+				{
+					var es=[];
+					for(var i=0;i<l;i++)es.push($(arguments[i]));
+					return es;
+				}else return document.getElementById(id);
+			}
+			function getPropPrefix(p)
+			{
+				var e = document.createElement("div");
+				var s = e.style, a, i;
+				if (s[p] !== undefined)	return p;
+				p = p.charAt(0).toUpperCase() + p.substr(1);
+				a = ["O","Moz","ms","Ms","Webkit"];
+				i = 5;
+				while (--i > -1 && s[a[i]+p] === undefined) { }
+				if (i >= 0){
+					_prefix = (i === 3) ? "ms" : a[i];
+					return _prefix + p;
+				}
+				return null;
+			}
+			var transform = getPropPrefix("transform");
+			function buildDom(target, dom)
+			{
+				var body = document.body;
+				var _div = div();
+				if (dom == undefined) dom = _ad.doms[_ad.doms.length - 1];
+				var scss = "";
+				var m = (window.moduleIndex !== undefined) ? "m" + window.moduleIndex : "";
+				for (var i = 0; i < dom.sst.length; i++ ) scss += "." + m + "sst" + i + dom.sst[i] + "\n";
+				for (var i = 0; i < dom.sso.length; i++ ) scss += "." + m + "sso" + i + dom.sso[i] + "\n";
+				
+				var s = document.createElement('style');
+				s.type = 'text/css';
+				if (s.styleSheet){
+				  s.styleSheet.cssText = scss;
+				} else {
+				  s.appendChild(document.createTextNode(scss));
+				}
+				document.head.appendChild(s);
+
+				extract(dom, _div, dom.types);
+				if(target){
+					typeof target === "string" ? document.getElementById(target).appendChild(_div) : target.appendChild(_div); 
+				}else{
+					body.appendChild(_div);						
+				}
+			}
+			function extract(ob, parent, types)
+			{
+				var isSvg = (ob.u || ob.svg) ? true : false;
+				var el = isSvg ? svg() : div();
+				el.className = "do";
+				if(isSvg)	el.setAttribute("class", "do");
+				if (ob.i) {
+					el.id = ob.i;
+					if (el.id == "root") el.style.display = "none";
+				}
+				if(ob.t)	el.setAttribute("data-type", types[ob.t]);
+				if(ob.c)	for (var i = 0; i < ob.c.length; i++) extract(ob.c[i], el, types);
+				if(ob.w)	isSvg ? el.setAttribute("width", ob.w + "px") : el.style.width = ob.w + "px";
+				if(ob.h)	isSvg ? el.setAttribute("height", ob.h + "px") :  el.style.height = ob.h + "px";
+				if(ob.x)	el.style.left = ob.x + "px";
+				if(ob.y)	el.style.top = ob.y + "px";
+				if(ob.bx || ob.by)	el.style.backgroundPosition = def(ob.bx, 0) + "px" + " " + def(ob.by, 0) + "px";
+				//if(typeof ob.ta != "undefined" || typeof ob.tb != "undefined" || typeof ob.tc != "undefined" || typeof ob.td != "undefined" || typeof ob.tx != "undefined" || typeof ob.ty != "undefined")
+				if(isDef(ob.ta, ob.tb, ob.tc, ob.td, ob.tx, ob.ty))
+				{
+					el.style[transform] = "matrix("+def(ob.ta,1) + "," + def(ob.tb,0) + "," + def(ob.tc,0) + "," + def(ob.td,1) + "," + def(ob.tx,0) + "," + def(ob.ty,0) + ")";
+				}
+				if(isDef(ob.mx, ob.my))
+				{
+					el.style[transform] = "matrix(1,0,0,1," + -def(ob.mx,0) + "," + -def(ob.my,0) + ")";
+				}
+				if(ob.k)	el.className += " " + ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + ob.k : ob.k);
+				if(ob.u)	buildUse(ob.u, el);
+				if(ob.svg)	buildSVG(ob.svg, el);	//el.innerHTMl = 
+				if(ob.col)	el.setAttribute("fill",  ob.col);
+				if(parent)	parent.appendChild(el);
+			}
+			function buildSVG(data, el, col)
+			{
+				var parentTag = el;
+				for (var i = 0; i < data.length; i+=5)
+				{
+					//var useTag = document.createElement("use");
+					var useTag = document.createElementNS($svg.s, "use");
+					var id = "#f" + data[i] + "_" + data[i + 1];
+					var mtx = "matrix(" + data[i + 2] + ",0,0," + data[i + 2] + "," + data[i + 3] + "," + data[i + 4] + ")";
+					useTag.setAttributeNS($svg.x, "xlink:href", id);
+					useTag.setAttribute("transform", mtx);
+					useTag.style[transform] = mtx;						
+					parentTag.appendChild(useTag);
+				}
+			}
+			function buildUse(id, el)
+			{
+				var useTag = document.createElementNS($svg.s, "use");
+				var link = ((window.moduleIndex !== undefined) ? "m"+window.moduleIndex + id : id);
+				useTag.setAttributeNS($svg.x, "xlink:href", "#" + link);
+				el.appendChild(useTag);
+			}
+			function isDef()
+			{
+				for(var i=0; i<arguments.length; i++) if(typeof arguments[i] != "undefined") return true;
+				return false;
+			}
+			function def(value, _default)
+			{
+				return typeof value == "undefined" ? _default : value;
+			}
+			function div()
+			{
+				return document.createElement("div");
+			}
+			function svg()
+			{
+				var el = document.createElementNS($svg.s, "svg");
+				el.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", $svg.x);
+				//el.setAttributeNS(ns, "xmlns", SVG_NS);
+				return el;
+			}
+			</script>
+<script id="script_font" type="text/javascript">var fonts = {};
+</script>
+<script id="script_dom" type="text/javascript">_ad.doms = _ad.doms || [];
+var dom = {i:"root",w:300,h:250,c:[{i:"mc_endscreen",t:0,w:1141,h:1334,c:[{i:"mc_stone_bg",t:1,w:400,h:250,x:0,y:0,bx:-2,by:-2,k:"sso0"},{i:"mc_v",t:2,tx:149.05,ty:343.35,w:1141,h:1004,c:[{i:"mc_vleft_redbg",t:3,tx:-690,ty:-1077,w:806,h:1004,c:[{t:4,w:806,h:1004,c:[{w:807,h:1005,u:"s0",mx:"0",my:"1.3"}]}]},{i:"mc_vright_redbg",t:5,tx:450.5,ty:-720.05,w:370,h:460,c:[{t:4,w:370,h:460,c:[{w:371,h:460,u:"s1",mx:"370.3",my:"0.9"}]}]},{i:"mc_vleft_mintbg",t:6,tx:-690,ty:-1077,w:806,h:1004,c:[{t:4,w:806,h:1004,c:[{w:807,h:1005,u:"s2",mx:"0",my:"1.3"}]}]},{i:"mc_vright_mintbg",t:7,tx:450.5,ty:-720.05,w:370,h:460,c:[{t:4,w:370,h:460,c:[{w:371,h:460,u:"s3",mx:"370.3",my:"0.9"}]}]},{i:"mc_vleft_bg",t:8,tx:-690,ty:-1077,w:806,h:1004,c:[{t:4,w:806,h:1004,c:[{w:807,h:1005,u:"s4",mx:"0",my:"1.3"}]}]},{i:"mc_vright_bg",t:9,tx:450.5,ty:-720.05,w:370,h:460,c:[{t:4,w:370,h:460,c:[{w:371,h:460,u:"s5",mx:"370.3",my:"0.9"}]}]}]},{i:"mc_defylimit_horizontal",t:10,ta:0.7,td:0.7,tx:95,ty:12,w:56,h:13,c:[{i:"mc_defylimit_bug",t:11,tx:9,ty:9.2,w:18,h:18,c:[{t:4,w:18,h:18,c:[{w:18,h:18,u:"s6",mx:"9",my:"9"}]}]},{i:"mc_defylimit_text",t:12,tx:55.65,ty:9,w:48,h:16,c:[{t:13,w:48,h:16,c:[{t:4,w:48,h:17,c:[{w:48,h:16,u:"s7",mx:"23.8",my:"7.45"}]}]}]},{i:"mc_defylimit_line",t:14,tx:22.25,w:3,h:19,c:[{t:4,ta:0.21428,td:0.13036,w:3,h:19,c:[{ta:0.21428,td:0.13036,w:11,h:140,u:"s8",mx:"0",my:"0"}]}]}]},{i:"mc_val_outlinelogo",t:15,ta:0.96996,td:0.96996,tx:-229,ty:60,w:642,h:94,c:[{t:4,w:662,h:97,c:[{w:660,h:95,u:"s9",mx:"0",my:"0"}]}]},{i:"mc_border_two",t:16,w:300,h:600,c:[{t:17,w:300,h:4,c:[{t:4,w:300,h:4,c:[{w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:17,ty:246,w:300,h:4,c:[{t:4,w:300,h:4,c:[{w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:18,w:4,h:600,c:[{t:4,ta:0.01334,td:150,w:5,h:600,c:[{ta:0.01334,td:150,w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:18,tx:296,w:4,h:600,c:[{t:4,ta:0.01334,td:150,w:5,h:600,c:[{ta:0.01334,td:150,w:300,h:4,u:"s10",mx:"0",my:"0"}]}]}]},{i:"mc_characters",t:19,w:416,h:269,c:[{i:"mc_choose_your_fighter",t:20,w:416,h:269,x:0,y:0,bx:-2,by:-2,k:"sst0"}]},{i:"mc_valorant_logo",t:21,ta:0.96996,td:0.96994,tx:25.5,ty:89,w:253,h:37,c:[{t:4,w:7,h:5,c:[{w:261,h:38,u:"s11",mx:"0",my:"0"}]},{i:"logo_letter_8",t:22,tx:230.6,ty:0.85,w:30,h:37,c:[{t:4,w:30,h:37,c:[{w:30,h:37,u:"s12",mx:"0",my:"0"}]}]},{i:"logo_letter_7",t:23,tx:191.9,ty:0.9,w:35,h:37,c:[{t:4,w:35,h:37,c:[{w:35,h:37,u:"s13",mx:"0",my:"0.05"}]}]},{i:"logo_letter_6",t:24,tx:162.55,ty:0.9,w:36,h:37,c:[{t:4,w:36,h:37,c:[{w:36,h:37,u:"s14",mx:"0",my:"0"}]}]},{i:"logo_letter_5",t:25,tx:126.05,ty:0.85,w:33,h:37,c:[{t:4,w:33,h:37,c:[{w:33,h:37,u:"s15",mx:"0",my:"0"}]}]},{i:"logo_letter_4",t:26,tx:82.4,w:39,h:39,c:[{t:4,w:39,h:39,c:[{w:39,h:39,u:"s16",mx:"0",my:"0.05"}]}]},{i:"logo_letter_3",t:27,tx:59.95,ty:0.9,w:23,h:37,c:[{t:4,w:23,h:37,c:[{w:23,h:37,u:"s17",mx:"0",my:"0"}]}]},{i:"logo_letter_2",t:28,tx:16.75,ty:0.9,w:36,h:37,c:[{t:4,w:36,h:37,c:[{w:36,h:37,u:"s18",mx:"0",my:"0"}]}]},{i:"logo_letter_1",t:29,ty:0.85,w:36,h:37,c:[{t:4,w:36,h:37,c:[{w:36,h:37,u:"s19",mx:"0",my:"0"}]}]}]},{i:"mc_rating",t:30,ta:0.74998,td:0.74998,tx:272.5,ty:219.5,w:32,h:39,c:[{i:"rating_english",t:31,ta:0.83998,td:0.83998,w:42,h:52,c:[{i:"pegi16_mc",t:32,tx:-25,ty:-30.5,w:50,h:62,c:[{t:33,w:50,h:50,c:[{t:4,w:50,h:50,c:[{w:50,h:50,u:"s20",mx:"0",my:"0"}]},{t:4}]},{t:4,w:50,h:61,c:[{w:50,h:61,u:"s22",mx:"0",my:"0"}]}]}]}]},{i:"mc_pc_only",t:34,ta:0.41998,td:0.41998,tx:149,ty:207.5,w:89,h:25,c:[{t:35,tx:2.85,ty:0.05,w:211.75,h:58.4,x:-105,y:-29,bx:-422,by:-2,k:"sst0"}]},{i:"mc_riot",t:36,ta:0.33998,td:0.33998,tx:43.35,ty:208.3,w:50,h:16,c:[{t:37,ta:0.99998,td:0.99998,tx:-72.9,ty:-23.45,w:146.00223,h:47.00072,bx:-638,by:-2,k:"sst0"}]},{i:"mc_smallprint",t:38,tx:109.5,ty:233.95,w:214,h:13,c:[{i:"mc_smlprint_uk",t:39,w:214,h:13,c:[{t:4,w:214,h:14,c:[{w:214,h:13,u:"s23",mx:"94",my:"5.95"}]}]}]},{i:"mc_cta",t:40,ta:0.75998,td:0.75998,tx:150,ty:160,w:194,h:33,c:[{i:"mc_cta_bg",t:41,w:255,h:44,c:[{t:42,w:255,h:44,c:[{t:4,w:256,h:44,c:[{w:255,h:43,u:"s24",mx:"127.1",my:"21.5"}]}]},{t:43,w:255,h:44,c:[{t:4,w:256,h:44,c:[{w:255,h:43,u:"s25",mx:"127.1",my:"21.5"}]}]},{t:44,w:255,h:44,c:[{t:4,w:256,h:44,c:[{w:255,h:43,u:"s26",mx:"127.1",my:"21.5"}]}]},{t:45,w:255,h:44,c:[{t:4,w:256,h:44,c:[{w:255,h:43,u:"s27",mx:"127.1",my:"21.5"}]}]}]},{t:46,tx:0.35,ty:1.5,w:137,h:22,c:[{t:47,tx:0.9,ty:-2.7,w:137,h:22,c:[{t:4,w:138,h:22,c:[{w:137,h:22,u:"s28",mx:"68.3",my:"10.55"}]}]},{t:48,tx:-0.4,ty:2.8,w:134,h:11,c:[{t:4,w:134,h:11,c:[{w:134,h:11,u:"s29",mx:"67",my:"5"}]}]},{t:49,tx:0.9,ty:-7.35,w:137,h:12,c:[{t:4,w:138,h:12,c:[{w:137,h:12,u:"s30",mx:"68.3",my:"5.9"}]}]}]}]},{i:"mc_rectanglekink",t:50,tx:-2,w:11,h:140,c:[{t:4,w:11,h:140,c:[{w:11,h:140,u:"s8",mx:"0",my:"0"}]}]}]},{i:"mc_curtain",t:51,w:300,h:250,c:[{t:4,w:300,h:250,c:[{w:300,h:250,u:"s31",mx:"0",my:"0"}]}]},{i:"mc_grid",t:52,w:422,h:468,c:[{i:"mc_grid_smallsquare",t:53,tx:-59.55,ty:16.85,w:3,h:4,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:77.5,ty:-32.2,w:3,h:4,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:30,ty:149,w:3,h:3,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:358.55,ty:303.65,w:3,h:3,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:358.55,ty:311.9,w:3,h:3,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:24.75,ty:291.4,w:3,h:3,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_smallsquare",t:53,tx:45,ty:149,w:3,h:3,c:[{t:4,ta:0.11539,tx:0.35,ty:-0.5,w:4,h:3,c:[{ta:0.11539,tx:0.35,ty:-0.5,w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_line",t:54,ta:0.46875,tx:140.2,ty:33.2,w:13,h:3,c:[{t:4,w:26,h:3,c:[{w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_line",t:54,ta:0.46875,tx:280.5,ty:431.8,w:13,h:3,c:[{t:4,w:26,h:3,c:[{w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_line",t:54,ta:0.46875,tx:29.45,ty:431.8,w:13,h:3,c:[{t:4,w:26,h:3,c:[{w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_line",t:54,ta:0.46875,tx:29.45,ty:361.55,w:13,h:3,c:[{t:4,w:26,h:3,c:[{w:26,h:3,u:"s32",mx:"16",my:"1"}]}]},{i:"mc_grid_pointer",t:55,tx:38,ty:31,w:18,h:13,c:[{t:4,w:18,h:14,c:[{w:18,h:13,u:"s33",mx:"8.95",my:"6.35"}]}]}]},{i:"mc_intro",t:56,ta:0.89,td:0.89,tx:1582,ty:76,w:1332,h:147,c:[{t:57,ta:0.5,td:0.5,tx:-1608.8,ty:52,w:1497,h:166,c:[{t:58,tx:-1760,ty:-69.8,w:2993,h:149,c:[{t:4,w:2993,h:149,c:[{w:2993,h:150,u:"s34",mx:"0",my:"0"}]}]},{t:59,tx:-1760,ty:-69.8,w:2897,h:149,c:[{t:4,w:2897,h:149,c:[{w:2897,h:150,u:"s35",mx:"0",my:"0"}]}]},{t:60,tx:-1760,ty:-69.95,w:2897,h:151,c:[{t:4,w:2897,h:152,c:[{w:2897,h:150,u:"s36",mx:"0",my:"0"}]}]},{t:61,tx:-1183,ty:-69.95,w:1972,h:149,c:[{t:4,w:1972,h:149,c:[{w:1972,h:150,u:"s37",mx:"0",my:"0"}]}]},{t:62,tx:-1063,ty:-69.95,w:1766,h:149,c:[{t:4,w:1766,h:149,c:[{w:1766,h:150,u:"s38",mx:"0",my:"0"}]}]},{t:63,tx:-1063,ty:-69.95,w:1720,h:149,c:[{t:4,w:1720,h:149,c:[{w:1720,h:150,u:"s39",mx:"0",my:"0"}]}]},{t:64,tx:-1012.95,ty:-69.95,w:1644,h:149,c:[{t:4,w:1644,h:149,c:[{w:1644,h:150,u:"s40",mx:"0",my:"0"}]}]},{t:65,tx:-1012.95,ty:-69.95,w:1628,h:149,c:[{t:4,w:1628,h:149,c:[{w:1628,h:150,u:"s41",mx:"0",my:"0"}]}]},{t:66,tx:-1012.95,ty:-69.95,w:1405,h:149,c:[{t:4,w:1405,h:149,c:[{w:1405,h:150,u:"s42",mx:"0",my:"0"}]}]},{t:67,tx:-1012.95,ty:-69.95,w:1213,h:149,c:[{t:4,w:1213,h:149,c:[{w:1213,h:150,u:"s43",mx:"0",my:"0"}]}]},{t:68,tx:-291.55,ty:-69.2,w:491,h:149,c:[{t:4,w:491,h:149,c:[{w:491,h:149,u:"s44",mx:"0",my:"0.05"}]}]},{t:69,tx:-179.65,ty:-69.2,w:317,h:149,c:[{t:4,w:317,h:149,c:[{w:317,h:149,u:"s45",mx:"0",my:"0.05"}]}]},{t:70,tx:-128.1,ty:-69.15,w:234,h:149,c:[{t:4,w:235,h:149,c:[{w:235,h:149,u:"s46",mx:"0",my:"0.2"}]}]},{t:71,tx:-101.45,ty:-69.15,w:195,h:148,c:[{t:4,w:195,h:148,c:[{w:195,h:149,u:"s47",mx:"0",my:"0.2"}]}]},{t:72,tx:-88.35,ty:-69.15,w:182,h:148,c:[{t:4,w:182,h:148,c:[{w:182,h:149,u:"s48",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:73,tx:-87.05,ty:-69.15,w:180,h:148,c:[{t:4,w:180,h:148,c:[{w:180,h:149,u:"s49",mx:"0",my:"0.2"}]}]},{t:74,tx:-95.3,ty:-81.5,w:197,h:156,c:[{t:4,w:197,h:156,c:[{w:197,h:156,u:"s50",mx:"0",my:"0.2"}]}]},{t:75,tx:-95.3,ty:-81.5,w:197,h:156,c:[{t:4,w:197,h:156,c:[{w:197,h:156,u:"s50",mx:"0",my:"0.2"}]}]},{t:76,tx:-97.8,ty:-84,w:201,h:160,c:[{t:4,w:201,h:160,c:[{w:201,h:160,u:"s51",mx:"0",my:"0.2"}]}]},{t:77,tx:-99.8,ty:-87,w:206,h:161,c:[{t:4,w:206,h:161,c:[{w:206,h:161,u:"s52",mx:"0",my:"0.2"}]}]},{t:78,tx:-102.3,ty:-90.2,w:211,h:165,c:[{t:4,w:211,h:165,c:[{w:211,h:165,u:"s53",mx:"0",my:"0.2"}]}]},{t:79,tx:-105.8,ty:-94.7,w:218,h:169,c:[{t:4,w:218,h:169,c:[{w:218,h:169,u:"s54",mx:"0",my:"0.2"}]}]},{t:80,tx:-109.8,ty:-99.7,w:226,h:173,c:[{t:4,w:226,h:173,c:[{w:226,h:173,u:"s55",mx:"0",my:"0.2"}]}]},{t:81,tx:-115.25,ty:-106,w:237,h:178,c:[{t:4,w:237,h:178,c:[{w:237,h:178,u:"s56",mx:"0",my:"0.2"}]}]},{t:82,tx:-125.25,ty:-119,w:257,h:190,c:[{t:4,w:257,h:190,c:[{w:257,h:190,u:"s57",mx:"0",my:"0.2"}]}]},{t:83,tx:-231.3,ty:-250,w:411,h:319,c:[{t:4,w:411,h:319,c:[{w:411,h:319,u:"s58",mx:"0",my:"0.2"}]}]},{t:84,tx:-192.9,ty:-203.2,w:355,h:210,c:[{t:4,w:355,h:210,c:[{w:355,h:211,u:"s59",mx:"0",my:"0.2"}]}]},{t:85,tx:-192.9,ty:-203.2,w:355,h:210,c:[{t:4,w:355,h:210,c:[{w:355,h:211,u:"s60",mx:"0",my:"0.2"}]}]},{t:86,tx:-192.9,ty:-203.2,w:355,h:210,c:[{t:4,w:355,h:210,c:[{w:355,h:211,u:"s60",mx:"0",my:"0.2"}]}]},{t:87,tx:-192.9,ty:-203.2,w:355,h:210,c:[{t:4,w:355,h:210,c:[{w:355,h:211,u:"s60",mx:"0",my:"0.2"}]}]}]}]},{i:"mc_border",t:16,w:300,h:600,c:[{t:17,w:300,h:4,c:[{t:4,w:300,h:4,c:[{w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:17,ty:246,w:300,h:4,c:[{t:4,w:300,h:4,c:[{w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:18,w:4,h:600,c:[{t:4,ta:0.01334,td:150,w:5,h:600,c:[{ta:0.01334,td:150,w:300,h:4,u:"s10",mx:"0",my:"0"}]}]},{t:18,tx:296,w:4,h:600,c:[{t:4,ta:0.01334,td:150,w:5,h:600,c:[{ta:0.01334,td:150,w:300,h:4,u:"s10",mx:"0",my:"0"}]}]}]}]};
+dom.types = ["mc_endscreenGFX","mc_stone_bgGFX","mc_vGFX","mc_vleft_redbgGFX","flash.display::Shape","mc_vright_redbgGFX","mc_vleft_mintbgGFX","mc_vright_mintbgGFX","mc_vleft_bgGFX","mc_vright_bgGFX","mc_defylimit_horizontalGFX","mc_defylimit_bugGFX","mc_defylimit_textGFX","mc_defylimit_text_ukGFX","mc_defylimit_lineGFX","mc_val_outlinelogoGFX","mc_borderGFX","Symbol_36GFX","Symbol_37GFX","mc_charactersGFX","mc_choose_your_fighterGFX","mc_valorant_logoGFX","logo_letter_8GFX","logo_letter_7GFX","logo_letter_6GFX","logo_letter_5GFX","logo_letter_4GFX","logo_letter_3GFX","logo_letter_2GFX","logo_letter_1GFX","mc_ratingGFX","mc_rating_pegiGFX","pegi16_white_mcGFX","PEGI_repeatGFX","mc_pconlyGFX","flash.display::MovieClip","mc_riotGFX","flash.display::Bitmap","mc_smallprintGFX","mc_smlprint_ukGFX","mc_ctaGFX","mc_cta_bgGFX","Symbol_4GFX","Symbol_3GFX","Symbol_2GFX","Symbol_1GFX","mc_uk_cta_textGFX","Symbol_5GFX","mc_uk_cta_bottom_textGFX","mc_cta_uk_topGFX","mc_rectanglekinkGFX","mc_curtainGFX","mc_gridGFX","mc_grid_smallsquareGFX","mc_grid_lineGFX","mc_grid_pointerGFX","mc_introGFX","mc_vbugGFX","Symbol_35GFX","Symbol_34GFX","Symbol_33GFX","Symbol_32GFX","Symbol_31GFX","Symbol_30GFX","Symbol_29GFX","Symbol_28GFX","Symbol_27GFX","Symbol_26GFX","Symbol_25GFX","Symbol_24GFX","Symbol_23GFX","Symbol_22GFX","Symbol_21GFX","Symbol_20GFX","Symbol_19GFX","Symbol_18GFX","Symbol_17GFX","Symbol_16GFX","Symbol_15GFX","Symbol_14GFX","Symbol_13GFX","Symbol_12GFX","Symbol_11GFX","Symbol_10GFX","Symbol_9GFX","Symbol_8GFX","Symbol_7GFX","Symbol_6GFX"];
+dom.sst = ["{background-image: url('spritesheet0.png');background-size:1024px 1024px;}"
+];
+dom.sso = ["{background-image: url('spritesheet0.jpg');background-size:1024px 1024px;}"
+];
+_ad.doms.push(dom);
+dom = null;</script>
+</head>
+<body style="margin:0px;" onload="adReady()">
+  <img crossorigin="" src="spritesheet0.png" width="300" height="250" style="display:none;"></img>
+  <img crossorigin="" src="spritesheet0.jpg" width="300" height="250" style="display:none;"></img>
+  <svg id="svg_defs" style="position:absolute"></svg>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script type="text/javascript" src="fbf.js"></script>
+  <script type="text/javascript">buildDom();</script>
+  <script type="text/javascript" src="main.js"></script>
+  <script>function adReady() {
+					startBanner();
+				}</script>
+</body>
+</html>
